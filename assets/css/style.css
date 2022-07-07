@@ -116,7 +116,7 @@
 
 .highlight .il { color: #099; }
 
-html { font-size: 16px; }
+html { font-size: 16px; font-family: 'Jua', sans-serif;}
 
 /** Reset some basic elements */
 body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, hr, dl, dd, ol, ul, figure { margin: 0; padding: 0; }
@@ -331,7 +331,7 @@ img.emoji { display: inline !important; vertical-align: baseline !important; }
 
 .page-content { -webkit-font-smoothing: antialiased !important; text-rendering: optimizeLegibility !important; font-family: "Segoe UI", SegoeUI, Roboto, "Segoe WP", "Helvetica Neue", "Helvetica", "Tahoma", "Arial", sans-serif !important; }
 
-.post-content p, .post-content li { font-size: 20px; color: #515151; }
+.post-content p, .post-content li { font-size: 20px; color: #515151; font-family: 'Jua', sans-serif;}
 
 .post-link { font-weight: normal; }
 
