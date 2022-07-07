@@ -135,13 +135,10 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#데이터셋-생성-과제">데이터셋 생성 과제 </a></li>
 <li class="toc-entry toc-h3"><a href="#목차">목차 </a></li>
 <li class="toc-entry toc-h3"><a href="#필요-라이브러리-import">필요 라이브러리 import </a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h2"><a href="#✔️-(0)-Finance-Data-Reader를-이용한-주가-데이터셋---DataFrame">✔️ (0) Finance Data Reader를 이용한 주가 데이터셋 - DataFrame </a></li>
-<li class="toc-entry toc-h2"><a href="#✔️-(1)-Finance-Data-Reader를-이용한-주가-데이터셋---df2list">✔️ (1) Finance Data Reader를 이용한 주가 데이터셋 - df2list </a></li>
-<li class="toc-entry toc-h2"><a href="#✔️-(2)-Finance-Data-Reader를-이용한-주가-데이터셋---dictionary">✔️ (2) Finance Data Reader를 이용한 주가 데이터셋 - dictionary </a></li>
-<li class="toc-entry toc-h2"><a href="#✔️-(3)-Finance-Data-Reader를-이용한-주가-데이터셋---MultiProcessing">✔️ (3) Finance Data Reader를 이용한 주가 데이터셋 - MultiProcessing </a>
-<ul>
+<li class="toc-entry toc-h3"><a href="#✔️-(0)-Finance-Data-Reader를-이용한-주가-데이터셋---DataFrame">✔️ (0) Finance Data Reader를 이용한 주가 데이터셋 - DataFrame </a></li>
+<li class="toc-entry toc-h3"><a href="#✔️-(1)-Finance-Data-Reader를-이용한-주가-데이터셋---df2list">✔️ (1) Finance Data Reader를 이용한 주가 데이터셋 - df2list </a></li>
+<li class="toc-entry toc-h3"><a href="#✔️-(2)-Finance-Data-Reader를-이용한-주가-데이터셋---dictionary">✔️ (2) Finance Data Reader를 이용한 주가 데이터셋 - dictionary </a></li>
+<li class="toc-entry toc-h3"><a href="#✔️-(3)-Finance-Data-Reader를-이용한-주가-데이터셋---MultiProcessing">✔️ (3) Finance Data Reader를 이용한 주가 데이터셋 - MultiProcessing </a></li>
 <li class="toc-entry toc-h3"><a href="#✔️-(4)-Finance-Data-Reader를-이용한-주가-데이터셋---MySQL">✔️ (4) Finance Data Reader를 이용한 주가 데이터셋 - MySQL </a></li>
 <li class="toc-entry toc-h3"><a href="#✔️-(5)-최종-머신러닝-데이터셋">✔️ (5) 최종 머신러닝 데이터셋 </a></li>
 </ul>
@@ -166,7 +163,7 @@ window.onload = wrap_img;
 <h2 id="1-1.-머신러닝을-위한-주가-데이터셋-생성">
 <a class="anchor" href="#1-1.-%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%A3%BC%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B-%EC%83%9D%EC%84%B1" aria-hidden="true"><span class="octicon octicon-link"></span></a>1-1. 머신러닝을 위한 주가 데이터셋 생성<a class="anchor-link" href="#1-1.-%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D%EC%9D%84-%EC%9C%84%ED%95%9C-%EC%A3%BC%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B-%EC%83%9D%EC%84%B1"> </a>
 </h2>
-<p>주가 데이터셋 생성 절차는 <code>df2list</code> - <code>dictionary</code> - <code>MultiProcessing</code> - <code>MySQL</code> 순서로 진행한다. 4가지 절차를 통해 데이터셋이 달라지는 것은 아니고, 속도를 개선시키는 방향으로의 효율적인 코드를 짜기 위한 훈련 과정이다. 대규모 데이터셋을 다루기 위해서는 효율적인 코딩을 통해 속도를 개선하는 것도 중요한 일이다. 특히 이번에 사용하는 주가 데이터셋은 양이 많을 뿐만 아니라, <code>fdr</code> 라이브러리를 사용하여 외부에서 불러와야하기 때문에 데이터셋을 구성하는 것만 해도 속도가 상당히 느리다. 이러한 문제점을 해결하고자 본 포스팅에서는 4단계에 걸친 데이터셋 생성 과정을 보여준다.</p>
+<p>주가 데이터셋 생성 절차는 <code>df2list</code> - <code>dictionary</code> - <code>MultiProcessing</code> - <code>MySQL</code> 순서로 진행된다. 4가지 절차를 통해 데이터셋이 달라지는 것은 아니고, 속도를 개선시키는 방향으로의 효율적인 코드를 짜기 위한 훈련 과정이다. 대규모 데이터셋을 다루기 위해서는 효율적인 코딩을 통해 속도를 개선하는 것도 중요한 일이다. 특히 이번에 사용하는 주가 데이터셋은 양이 많을 뿐만 아니라, <code>fdr</code> 라이브러리를 사용하여 외부에서 불러와야하기 때문에 데이터셋을 구성하는 것만 해도 속도가 상당히 느리다. 이러한 문제점을 해결하고자 본 포스팅에서는 4단계에 걸친 데이터셋 생성 과정을 보여준다.</p>
 <p><br></p>
 <h3 id="데이터셋-정의">
 <a class="anchor" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B-%EC%A0%95%EC%9D%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>데이터셋 정의<a class="anchor-link" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B-%EC%A0%95%EC%9D%98"> </a>
@@ -278,9 +275,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="✔️-(0)-Finance-Data-Reader를-이용한-주가-데이터셋---DataFrame">
+<h3 id="✔️-(0)-Finance-Data-Reader를-이용한-주가-데이터셋---DataFrame">
 <a class="anchor" href="#%E2%9C%94%EF%B8%8F-(0)-Finance-Data-Reader%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%A3%BC%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B---DataFrame" aria-hidden="true"><span class="octicon octicon-link"></span></a>✔️ <strong>(0)</strong> Finance Data Reader를 이용한 주가 데이터셋 - <code>DataFrame</code><a class="anchor-link" href="#%E2%9C%94%EF%B8%8F-(0)-Finance-Data-Reader%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%A3%BC%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B---DataFrame"> </a>
-</h2>
+</h3>
 <p>속도 비교를 위해 기존 데이터의 타입인 <code>DataFrame</code>을 사용하여 데이터셋을 생성한다. 연구 인턴 초기 첫번째로 작성했던 코드들인데, 개선해야 할 부분들이 많다.</p>
 
 </div>
@@ -731,9 +728,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="✔️-(1)-Finance-Data-Reader를-이용한-주가-데이터셋---df2list">
+<h3 id="✔️-(1)-Finance-Data-Reader를-이용한-주가-데이터셋---df2list">
 <a class="anchor" href="#%E2%9C%94%EF%B8%8F-(1)-Finance-Data-Reader%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%A3%BC%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B---df2list" aria-hidden="true"><span class="octicon octicon-link"></span></a>✔️ (1) Finance Data Reader를 이용한 주가 데이터셋 - <code>df2list</code><a class="anchor-link" href="#%E2%9C%94%EF%B8%8F-(1)-Finance-Data-Reader%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%A3%BC%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B---df2list"> </a>
-</h2>
+</h3>
 <p>첫번째 방법은 <code>DataFrame</code> 사용을 지양하고, <code>python</code>의 기본 데이터 타입인 <code>list</code>로 바꾸어 사용하는 방법이다. 이로써 <code>column</code> 중심의 연산을 <code>row</code> 중심의 연산으로 바꾸어준다. 이 방법에서는 속도 개선 보다는 <code>(0)</code>번 방법의 코드에서 효율적이지 못했던 부분을 고치고 깔끔한 코드로 보완한다.</p>
 
 </div>
@@ -1041,9 +1038,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="✔️-(2)-Finance-Data-Reader를-이용한-주가-데이터셋---dictionary">
+<h3 id="✔️-(2)-Finance-Data-Reader를-이용한-주가-데이터셋---dictionary">
 <a class="anchor" href="#%E2%9C%94%EF%B8%8F-(2)-Finance-Data-Reader%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%A3%BC%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B---dictionary" aria-hidden="true"><span class="octicon octicon-link"></span></a>✔️ (2) Finance Data Reader를 이용한 주가 데이터셋 - <code>dictionary</code><a class="anchor-link" href="#%E2%9C%94%EF%B8%8F-(2)-Finance-Data-Reader%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%A3%BC%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B---dictionary"> </a>
-</h2>
+</h3>
 </div>
 </div>
 </div>
@@ -1288,9 +1285,9 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="✔️-(3)-Finance-Data-Reader를-이용한-주가-데이터셋---MultiProcessing">
+<h3 id="✔️-(3)-Finance-Data-Reader를-이용한-주가-데이터셋---MultiProcessing">
 <a class="anchor" href="#%E2%9C%94%EF%B8%8F-(3)-Finance-Data-Reader%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%A3%BC%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B---MultiProcessing" aria-hidden="true"><span class="octicon octicon-link"></span></a>✔️ (3) Finance Data Reader를 이용한 주가 데이터셋 - <code>MultiProcessing</code><a class="anchor-link" href="#%E2%9C%94%EF%B8%8F-(3)-Finance-Data-Reader%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-%EC%A3%BC%EA%B0%80-%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%85%8B---MultiProcessing"> </a>
-</h2>
+</h3>
 </div>
 </div>
 </div>
