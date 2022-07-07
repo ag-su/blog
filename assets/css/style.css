@@ -262,7 +262,7 @@ table td { border: 1px solid #e8e8e8; }
 
 .page-heading { font-size: 2rem; }
 
-.post-list-heading { font-size: 1.75rem; }
+.list-heading { font-size: 1.75rem; }
 
 .post-list { margin-left: 0; list-style: none; }
 
@@ -333,7 +333,7 @@ img.emoji { display: inline !important; vertical-align: baseline !important; }
 
 .post-content p, .post-content li { font-size: 20px; color: #515151; font-family: 'Jua', sans-serif;}
 
-.post-link { font-weight: normal; }
+.post-link { font-weight: normal; font-family: 'Jua', sans-serif;}
 
 h1 { margin-top: 2.5rem !important; }
 
