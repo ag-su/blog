@@ -210,7 +210,7 @@ table td { border: 1px solid #e8e8e8; }
 /** Site header */
 .site-header { border-top: 5px solid #424242; border-bottom: 1px solid #e8e8e8; min-height: 55.95px; line-height: 54px; position: relative; }
 
-.site-title { font-size: 1.625rem; font-weight: 300; letter-spacing: -1px; margin-bottom: 0; float: left; font-family: 'Jua', sans-serif;}
+.site-title { font-size: 1.625rem; font-weight: 300; letter-spacing: -1px; margin-bottom: 0; float: left; }
 
 @media screen and (max-width: 800px) { .site-title { padding-right: 45px; } }
 
@@ -229,8 +229,6 @@ table td { border: 1px solid #e8e8e8; }
 .site-nav input ~ .trigger { clear: both; display: none; }
 
 .site-nav input:checked ~ .trigger { display: block; padding-bottom: 5px; }
-
-.page-link { font-family: 'Jua', sans-serif; }
 
 .site-nav .page-link { color: #111111; line-height: 1.5; display: block; padding: 5px 10px; margin-left: 20px; }
 
@@ -260,10 +258,6 @@ table td { border: 1px solid #e8e8e8; }
 @media screen and (min-width: 1000px) { .footer-col-wrapper { display: flex; } .footer-col { width: calc(100% - (30px / 2)); padding: 0 15px; } .footer-col:first-child { padding-right: 15px; padding-left: 0; } .footer-col:last-child { padding-right: 0; padding-left: 15px; } }
 
 /** Page content */
-h1#recent-posts { margin-bottom: 10px; font-family: 'Jua', sans-serif;}
-
-.box { border: 1px solid; padding: 15px; border-radius: 10px; }
-
 .page-content { padding: 30px 0; flex: 1 0 auto; }
 
 .page-heading { font-size: 2rem; }
@@ -272,26 +266,24 @@ h1#recent-posts { margin-bottom: 10px; font-family: 'Jua', sans-serif;}
 
 .post-list { margin-left: 0; list-style: none; }
 
-.post-list > li { margin-bottom: 20px; }
+.post-list > li { margin-bottom: 30px; }
 
-.post-meta { font-size: 14px; color: #828282; font-family: 'Jua', sans-serif;}
-
-.post-meta-description { font-family: 'Jua', sans-serif; }
+.post-meta { font-size: 14px; color: #828282; }
 
 .post-link { display: block; font-size: 1.5rem; }
 
 /** Posts */
 .post-header { margin-bottom: 30px; }
 
-.post-title, .post-content h1 { font-size: 2.625rem; letter-spacing: -1px; line-height: 1.15; font-family: 'Jua', sans-serif;}
+.post-title, .post-content h1 { font-size: 2.625rem; letter-spacing: -1px; line-height: 1.15; }
 
-@media screen and (min-width: 1200px) { .post-title, .post-content h1 { font-size: 2.626rem; } }
+@media screen and (min-width: 1200px) { .post-title, .post-content h1 { font-size: 2.625rem; } }
 
 .post-content { margin-bottom: 30px; }
 
-.post-content h1, .post-content h2, .post-content h3 { margin-top: 60px; font-family: 'Jua', sans-serif;}
+.post-content h1, .post-content h2, .post-content h3 { margin-top: 60px; }
 
-.post-content h4, .post-content h5, .post-content h6 { margin-top: 30px; font-family: 'Jua', sans-serif;}
+.post-content h4, .post-content h5, .post-content h6 { margin-top: 30px; }
 
 .post-content h2 { font-size: 1.75rem; }
 
@@ -339,9 +331,9 @@ img.emoji { display: inline !important; vertical-align: baseline !important; }
 
 .page-content { -webkit-font-smoothing: antialiased !important; text-rendering: optimizeLegibility !important; font-family: "Segoe UI", SegoeUI, Roboto, "Segoe WP", "Helvetica Neue", "Helvetica", "Tahoma", "Arial", sans-serif !important; }
 
-.post-content p, .post-content li { font-size: 20px; color: #515151; font-family: 'Jua', sans-serif;}
+.post-content p, .post-content li { font-size: 20px; color: #515151; }
 
-.post-link { font-weight: normal; font-family: 'Jua', sans-serif;}
+.post-link { font-weight: normal; }
 
 h1 { margin-top: 2.5rem !important; }
 
@@ -383,7 +375,7 @@ h1:hover .anchor-link, h2:hover .anchor-link, h3:hover .anchor-link, h4:hover .a
 
 .post-meta-title, .post-meta { margin-top: .25em !important; margin-bottom: .25em !important; font-size: 105%; }
 
-.page-description { margin-top: .5rem !important; margin-bottom: .5rem !important; color: #585858; font-size: 115%; font-family: 'Jua', sans-serif;}
+.page-description { margin-top: .5rem !important; margin-bottom: .5rem !important; color: #585858; font-size: 115%; }
 
 .category-tags-icon { font-size: 75% !important; padding-left: 0.375em; opacity: 35%; }
 
