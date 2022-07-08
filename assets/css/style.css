@@ -258,8 +258,6 @@ table td { border: 1px solid #e8e8e8; }
 @media screen and (min-width: 1000px) { .footer-col-wrapper { display: flex; } .footer-col { width: calc(100% - (30px / 2)); padding: 0 15px; } .footer-col:first-child { padding-right: 15px; padding-left: 0; } .footer-col:last-child { padding-right: 0; padding-left: 15px; } }
 
 /** Page content */
-.box {border: 1px solid; padding: 2px; border-radius: 1px;}
-
 .page-content { padding: 30px 0; flex: 1 0 auto; }
 
 .page-heading { font-size: 2rem; }
@@ -333,9 +331,9 @@ img.emoji { display: inline !important; vertical-align: baseline !important; }
 
 .page-content { -webkit-font-smoothing: antialiased !important; text-rendering: optimizeLegibility !important; font-family: "Segoe UI", SegoeUI, Roboto, "Segoe WP", "Helvetica Neue", "Helvetica", "Tahoma", "Arial", sans-serif !important; }
 
-.post-content p, .post-content li { font-size: 20px; color: #515151; font-family: 'Jua', sans-serif;}
+.post-content p, .post-content li { font-size: 20px; color: #515151; }
 
-.post-link { font-weight: normal; font-family: 'Jua', sans-serif;}
+.post-link { font-weight: normal; }
 
 h1 { margin-top: 2.5rem !important; }
 
