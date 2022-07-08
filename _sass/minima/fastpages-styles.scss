@@ -97,7 +97,9 @@ li {
   }
 }
 
-
+a.visited {
+    color: #e16281;
+}
 
 //  Code Folding
  details.description[open] summary::after {
