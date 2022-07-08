@@ -1,6 +1,18 @@
 //Default Overrides For Styles In Minima 
 // If you wish to override any of this CSS, do so in _sass/minima/custom-styles.css
 
+
+::-moz-selection {
+   background: #f00;
+   color: #fff;
+}
+
+::selection {
+   background: #f00;
+   color: #fff;
+}
+
+
 .post img {
         display: block;
         // border:1px solid #021a40;
@@ -95,6 +107,10 @@ li {
     margin-bottom:.05rem !important;
     font-family: 'Jua', sans-serif;;
   }
+}
+
+a {
+    color: #e16281;
 }
 
 a:visited {
