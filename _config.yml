@@ -6,7 +6,7 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: ag-su's Blog
+title: Project Blog
 description: Data Science project 
 github_username: ag-su
 # you can comment the below line out if your repo name is not different than your baseurl
