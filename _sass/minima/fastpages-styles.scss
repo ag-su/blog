@@ -31,23 +31,28 @@ img.emoji{
 .post-content p, .post-content li {
    font-size: 20px;
    color: #515151;
+   font-family: 'Jua', sans-serif;;
 }
 
 .post-link{
     font-weight: normal;
+    font-family: 'Jua', sans-serif;
 }
 
 // change padding of headings
 h1 {
     margin-top:2.5rem !important;
+    font-family: 'Jua', sans-serif;
 }
 
 h2 {
-    margin-top:2rem !important;      
+    margin-top:2rem !important;     
+    font-family: 'Jua', sans-serif;
 }
 
 h3, h4 {
     margin-top:1.5rem !important;      
+    font-family: 'Jua', sans-serif;
 }
 
 p {
@@ -148,6 +153,7 @@ h6:hover .anchor-link {
   margin-top: .25em !important;
   margin-bottom: .25em !important;
   font-size: 105%;
+  font-family: 'Jua', sans-serif;
 }
 
 .page-description {
@@ -155,6 +161,7 @@ h6:hover .anchor-link {
   margin-bottom: .5rem !important;
   color: #585858;
   font-size: 115%;
+  font-family: 'Jua', sans-serif;
 }
 
 // Custom styling for category tags
