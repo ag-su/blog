@@ -2,6 +2,10 @@
 // If you wish to override any of this CSS, do so in _sass/minima/custom-styles.css
 
 
+body {
+    background-color: #cbbfbf;
+}
+
 ::-moz-selection {
    background: #EC407A;
    color: #fff;
@@ -20,6 +24,7 @@ a.post-link {
 a.post-link:visited {
     color: #be8896;
 }
+
 
 h1#recent-posts {
     color: #726a6a;
