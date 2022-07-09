@@ -323,9 +323,9 @@ table td { border: 1px solid #e8e8e8; }
 
 /*-----------------------------------*/
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
-::-moz-selection { background: #917410; color: #fff; }
+::-moz-selection { background: #EC407A; color: #fff; }
 
-::selection { background: #917410; color: #fff; }
+::selection { background: #EC407A; color: #fff; }
 
 a.post-link { color: #cda9b2; }
 
