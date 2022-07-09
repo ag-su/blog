@@ -323,15 +323,17 @@ table td { border: 1px solid #e8e8e8; }
 
 /*-----------------------------------*/
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
+.Box { background-color: #585656; border: 1px #e1e4e8 solid; border-radius: 10px; }
+
 body { background-color: #cbbfbf; }
 
 ::-moz-selection { background: #EC407A; color: #fff; }
 
 ::selection { background: #EC407A; color: #fff; }
 
-a.post-link { color: #be8896; }
+a.post-link { color: #ffffff; }
 
-a.post-link:visited { color: #be8896; }
+a.post-link:visited { color: #ffffff; }
 
 h1#recent-posts { color: #726a6a; }
 
@@ -371,7 +373,9 @@ pre { margin-bottom: 1.5rem !important; }
 
 li h3, li h4 { margin-top: .05rem !important; margin-bottom: .05rem !important; }
 
-li .post-meta-description { color: #838282; font-size: 15px; margin-top: .05rem !important; margin-bottom: .05rem !important; font-family: 'Jua', sans-serif; }
+li .post-meta-description { color: #dccccc; font-size: 15px; margin-top: .05rem !important; margin-bottom: .05rem !important; font-family: 'Jua', sans-serif; }
+
+.post-meta { font-size: 14px; color: #e2d5d5; }
 
 details.description[open] summary::after { content: attr(data-open); }
 
