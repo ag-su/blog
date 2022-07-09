@@ -327,9 +327,9 @@ table td { border: 1px solid #e8e8e8; }
 
 ::selection { background: #917410; color: #fff; }
 
-a.post-link { color: #eabb1a; }
+a.post-link { color: #cda9b2; }
 
-a.post-link:visited { color: #917410; }
+a.post-link:visited { color: #cda9b2; }
 
 .post img { display: block; vertical-align: top; margin-left: auto; margin-right: auto; }
 
@@ -365,7 +365,7 @@ pre { margin-bottom: 1.5rem !important; }
 
 li h3, li h4 { margin-top: .05rem !important; margin-bottom: .05rem !important; }
 
-li .post-meta-description { color: #585858; font-size: 15px; margin-top: .05rem !important; margin-bottom: .05rem !important; font-family: 'Jua', sans-serif; }
+li .post-meta-description { color: #838282; font-size: 15px; margin-top: .05rem !important; margin-bottom: .05rem !important; font-family: 'Jua', sans-serif; }
 
 details.description[open] summary::after { content: attr(data-open); }
 
