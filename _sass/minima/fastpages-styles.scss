@@ -1,6 +1,11 @@
 //Default Overrides For Styles In Minima 
 // If you wish to override any of this CSS, do so in _sass/minima/custom-styles.css
 
+.Box {
+    background-color: #585656;
+    border: 1px #e1e4e8 solid;
+    border-radius: 10px;
+}
 
 body {
     background-color: #cbbfbf;
@@ -18,11 +23,11 @@ body {
 
 
 a.post-link {
-    color: #be8896;
+    color: #ffffff;
 }
 
 a.post-link:visited {
-    color: #be8896;
+    color: #ffffff;
 }
 
 
@@ -122,7 +127,7 @@ li {
   margin-bottom:.05rem !important;
   }
   .post-meta-description {
-    color: #838282;
+    color: #dccccc;
     font-size: 15px;
     margin-top:.05rem !important;
     margin-bottom:.05rem !important;
@@ -130,6 +135,10 @@ li {
   }
 }
 
+.post-meta {
+    font-size: 14px;
+    color: #e2d5d5;
+}
 
 //  Code Folding
  details.description[open] summary::after {
