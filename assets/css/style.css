@@ -323,9 +323,9 @@ table td { border: 1px solid #e8e8e8; }
 
 /*-----------------------------------*/
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
-::-moz-selection { background: #f00; color: #fff; }
+a { color: #917410; }
 
-::selection { background: #f00; color: #fff; }
+a:visited { color: #917410; }
 
 .post img { display: block; vertical-align: top; margin-left: auto; margin-right: auto; }
 
@@ -362,10 +362,6 @@ pre { margin-bottom: 1.5rem !important; }
 li h3, li h4 { margin-top: .05rem !important; margin-bottom: .05rem !important; }
 
 li .post-meta-description { color: #585858; font-size: 15px; margin-top: .05rem !important; margin-bottom: .05rem !important; font-family: 'Jua', sans-serif; }
-
-a { color: #951030; }
-
-a:visited { color: #951030; }
 
 details.description[open] summary::after { content: attr(data-open); }
 
