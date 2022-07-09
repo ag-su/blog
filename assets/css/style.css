@@ -327,9 +327,9 @@ table td { border: 1px solid #e8e8e8; }
 
 ::selection { background: #EC407A; color: #fff; }
 
-a.post-link { color: #cda9b2; }
+a.post-link { color: #be8896; }
 
-a.post-link:visited { color: #cda9b2; }
+a.post-link:visited { color: #be8896; }
 
 h1#recent-posts { color: #726a6a; }
 
