@@ -363,9 +363,9 @@ li h3, li h4 { margin-top: .05rem !important; margin-bottom: .05rem !important; 
 
 li .post-meta-description { color: #585858; font-size: 15px; margin-top: .05rem !important; margin-bottom: .05rem !important; font-family: 'Jua', sans-serif; }
 
-a { color: #e16281; }
+a { color: #951030; }
 
-a:visited { color: #e16281; }
+a:visited { color: #951030; }
 
 details.description[open] summary::after { content: attr(data-open); }
 
