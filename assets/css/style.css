@@ -371,7 +371,7 @@ h1 code, h2 code, h3 code, h4 code { font-size: 100%; background-color: #f3e6e9;
 
 p code, li code { background-color: #f3e6e9; }
 
-pre { margin-bottom: 1.5rem !important; color: #f3e6e9; }
+pre { margin-bottom: 1.5rem !important; background-color: #f3e6e9; }
 
 .post-title { margin-top: .5rem !important; color: #624040; }
 
