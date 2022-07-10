@@ -81,7 +81,7 @@ img.emoji{
 // make non-headings slightly lighter
 .post-content p, .post-content li {
    font-size: 20px;
-   color: #6a3d3d;
+   color: #311818;
    font-family: 'Jua', sans-serif;;
 }
 
@@ -123,16 +123,19 @@ p {
 h1, h2, h3, h4 {
     font-weight: normal !important;
     margin-bottom:0.5rem !important;  
-    color: #624040;
+    color: #66333f;
     code {
       font-size: 100%;
       background-color: #f3e6e9;
     }
 }
 
-.code {
-    background-color: #f3e6e9;
+p, li {
+    code {
+        background-color: #f3e6e9;
+    }
 }
+
 
 pre {
     margin-bottom:1.5rem !important; 
@@ -231,7 +234,7 @@ h6:hover .anchor-link {
 .page-description {
   margin-top: .5rem !important;
   margin-bottom: .5rem !important;
-  color: #585858;
+  color: #d39090;
   font-size: 115%;
   font-family: 'Jua', sans-serif;
 }
