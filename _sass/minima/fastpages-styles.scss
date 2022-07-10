@@ -83,7 +83,7 @@ img.emoji{
 // make non-headings slightly lighter
 .post-content p, .post-content li {
    font-size: 20px;
-   color: #515151;
+   color: #6a3d3d;
    font-family: 'Jua', sans-serif;;
 }
 
@@ -125,8 +125,10 @@ p {
 h1, h2, h3, h4 {
     font-weight: normal !important;
     margin-bottom:0.5rem !important;  
+    color: #624040;
     code {
       font-size: 100%;
+      background-color: #dacace;
     }
 }
 
@@ -135,7 +137,9 @@ pre {
 }
 
 // make sure the post title doesn't have too much spacing
-.post-title { margin-top: .5rem !important; }
+.post-title { margin-top: .5rem !important; 
+    color: #624040;
+}
 
 li {
   h3, h4 {
