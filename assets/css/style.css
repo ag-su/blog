@@ -323,7 +323,7 @@ table td { border: 1px solid #e8e8e8; }
 
 /*-----------------------------------*/
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
-.Box .col-12 { background-color: #585656; }
+.Box { background-color: #585656; }
 
 body { background-color: #cbbfbf; }
 
