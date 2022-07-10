@@ -331,6 +331,8 @@ table td { border: 1px solid #e8e8e8; }
 
 ::selection { background: #EC407A; color: #fff; }
 
+a.page-link { color: #937777; }
+
 a.post-link { color: #8d5b5b; }
 
 a.post-link:visited { color: #8d5b5b; }
