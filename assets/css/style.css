@@ -323,6 +323,8 @@ table td { border: 1px solid #e8e8e8; }
 
 /*-----------------------------------*/
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
+div.Box { background-color: #ffffff; border: 4px #925e6b solid; }
+
 .trigger { color: #b2838f; }
 
 .Box .box-shadow-medium .rounded-1 .col-12 { background-color: #585656; }
@@ -331,11 +333,11 @@ table td { border: 1px solid #e8e8e8; }
 
 ::selection { background: #EC407A; color: #fff; }
 
-a.page-link { color: #937777; }
+nav.site-nav a.page-link { color: #ffffff; }
 
-a.post-link { color: #8d5b5b; }
+a.post-link { color: #703e3e; }
 
-a.post-link:visited { color: #8d5b5b; }
+a.post-link:visited { color: #703e3e; }
 
 h1#recent-posts { color: #7c4c4c; }
 
@@ -349,13 +351,13 @@ img.emoji { display: inline !important; vertical-align: baseline !important; }
 
 .page-content { -webkit-font-smoothing: antialiased !important; text-rendering: optimizeLegibility !important; font-family: "Segoe UI", SegoeUI, Roboto, "Segoe WP", "Helvetica Neue", "Helvetica", "Tahoma", "Arial", sans-serif !important; background-color: #e8dcdc; }
 
-.site-header { background-color: #e8dcdc; }
+.site-header { background-color: #71424d; padding-top: 25px; padding-bottom: 25px; }
 
 .site-footer { background-color: #e8dcdc; }
 
 .post-content p, .post-content li { font-size: 20px; color: #6a3d3d; font-family: 'Jua', sans-serif; }
 
-a.site-title, a.site-title:visited { font-family: 'Jua', sans-serif; color: #7c4c4c; }
+a.site-title, a.site-title:visited { font-family: 'Jua', sans-serif; color: #ffffff; }
 
 .page-link { font-family: 'Jua', sans-serif; }
 
@@ -379,9 +381,9 @@ pre { margin-bottom: 1.5rem !important; }
 
 li h3, li h4 { margin-top: .05rem !important; margin-bottom: .05rem !important; }
 
-li .post-meta-description { color: #c6a6a6; font-size: 15px; margin-top: .05rem !important; margin-bottom: .05rem !important; font-family: 'Jua', sans-serif; }
+li .post-meta-description { color: #cb7a7a; font-size: 15px; margin-top: .05rem !important; margin-bottom: .05rem !important; font-family: 'Jua', sans-serif; }
 
-.post-meta { font-size: 14px; color: #c6a6a6; }
+.post-meta { font-size: 14px; color: #cb7a7a; }
 
 details.description[open] summary::after { content: attr(data-open); }
 
