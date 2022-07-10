@@ -353,7 +353,7 @@ img.emoji { display: inline !important; vertical-align: baseline !important; }
 
 .post-content p, .post-content li { font-size: 20px; color: #515151; font-family: 'Jua', sans-serif; }
 
-.site-title { font-family: 'Jua', sans-serif; color: #7c4c4c; }
+a.site-title, a.site-title:visited { font-family: 'Jua', sans-serif; color: #7c4c4c; }
 
 .page-link { font-family: 'Jua', sans-serif; }
 
