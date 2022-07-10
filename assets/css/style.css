@@ -325,15 +325,9 @@ table td { border: 1px solid #e8e8e8; }
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
 div.Box { background-color: #ffffff; border: 4px #925e6b solid; }
 
-.trigger { color: #b2838f; }
-
-.Box .box-shadow-medium .rounded-1 .col-12 { background-color: #585656; }
-
 ::-moz-selection { background: #EC407A; color: #fff; }
 
 ::selection { background: #EC407A; color: #fff; }
-
-nav.site-nav a.page-link { color: #ffffff; }
 
 a.post-link { color: #703e3e; }
 
