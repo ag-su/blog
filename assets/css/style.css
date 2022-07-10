@@ -335,9 +335,9 @@ a.post-link { color: #ffffff; }
 
 a.post-link:visited { color: #ffffff; }
 
-h1#recent-posts { color: #726a6a; }
+h1#recent-posts { color: #ffe6e6; }
 
-h1#projects { color: #726a6a; }
+h1#projects { color: #ffe6e6; }
 
 .post img { display: block; vertical-align: top; margin-left: auto; margin-right: auto; }
 
