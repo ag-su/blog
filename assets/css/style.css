@@ -323,7 +323,7 @@ table td { border: 1px solid #e8e8e8; }
 
 /*-----------------------------------*/
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
-div.Box { background-color: #fff8f9; border: 4px #925e6b solid; }
+div.Box { background-color: #ffffff; border: 4px #925e6b solid; }
 
 ::-moz-selection { background: #EC407A; color: #fff; }
 
@@ -345,7 +345,7 @@ img.emoji { display: inline !important; vertical-align: baseline !important; }
 
 .page-content { -webkit-font-smoothing: antialiased !important; text-rendering: optimizeLegibility !important; font-family: "Segoe UI", SegoeUI, Roboto, "Segoe WP", "Helvetica Neue", "Helvetica", "Tahoma", "Arial", sans-serif !important; background-color: #ffffff; }
 
-.site-header { background-color: #fff4f7; padding-top: 25px; padding-bottom: 25px; border-bottom: 4px solid #8d4949; }
+.site-header { background-color: #ffffff; padding-top: 25px; padding-bottom: 25px; border-bottom: 4px solid #8d4949; }
 
 .site-footer { background-color: #ffffff; }
 
