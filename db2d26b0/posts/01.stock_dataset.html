@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="agsu">
+<meta name="dcterms.date" content="2022-07-06">
+
+<title>Data Analysis blog - [stock prediction] 1.1 머신러닝을 위한 주가 데이터셋 생성</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Data Analysis blog</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/ag-su"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://agsu.tistory.com/"><i class="bi bi-box2-heart" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">[stock prediction] 1.1 머신러닝을 위한 주가 데이터셋 생성</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">project</div>
+                <div class="quarto-category">stock prediction</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>agsu </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 6, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="baseline-model" class="level1">
+<h1>1. baseline model</h1>
+<section id="머신러닝을-위한-주가-데이터셋-생성" class="level2">
+<h2 class="anchored" data-anchor-id="머신러닝을-위한-주가-데이터셋-생성">1.1. 머신러닝을 위한 주가 데이터셋 생성</h2>
+<p>본 글에서는 <code>시가, 저가, 고가, 종가, 거래량, 변화율</code>로 구성되어있는 주가 데이터셋을 머신러닝 학습을 위한 형태로 전처리 합니다. 또한, 이 전처리 과정에서 처음에 시도하였던 방법으로부터 점차 효율적으로 개선하여 처리 시간을 줄이는 방법의 과정을 담았습니다.</p>
+<p><br></p>
+<section id="데이터셋-정의" class="level3">
+<h3 class="anchored" data-anchor-id="데이터셋-정의">데이터셋 정의</h3>
+<p>본 연구에서 머신러닝 학습을 위한 데이터셋은 다음과 같이 정의하였습니다.</p>
+<ul>
+<li><p><strong><code>조건</code></strong>: 전체 약 2000개 종목 중 2018년 부터 존속하였던 기업 중 거래대금이 1000억 이상 발생한 날짜 (거래대금은 추후에 수정 예정)</p></li>
+<li><p><strong><code>독립변수 정의</code></strong>: <strong><code>조건</code></strong> 에서 선별한 특정 날짜를 D0라고 했을 때, D-9, D-8, …, D0, 총 10일 치의 <code>Open</code>, <code>High</code>, <code>Low</code>, <code>Close</code>, <code>거래대금(trading_value)</code></p></li>
+<li><p><strong><code>종속변수 정의</code></strong>: 조건에 부합하는 특정 날짜(D0) 대비 다음날(D+1) 날짜의 종가(close)가 2%이상 상승하면 <code>1</code>, 상승하지 않으면 <code>0</code></p></li>
+<li><p><strong><code>학습&amp;시험 데이터셋 정의</code></strong></p>
+<ul>
+<li><p><strong><code>train dataset</code></strong>: 2018년 1월 2일 - 2020년 12월 31일 (2년)</p></li>
+<li><p><strong><code>test dataset</code></strong>: 2021년 1월 2일 ~ 2021년 6월 31일 (6개월)</p></li>
+</ul></li>
+</ul>
+<p><br></p>
+</section>
+<section id="데이터셋-생성-과제" class="level3">
+<h3 class="anchored" data-anchor-id="데이터셋-생성-과제">데이터셋 생성 과제</h3>
+<p>데이터셋 생성을 3단계의 과정으로 나누어 진행하였습니다.</p>
+<ul>
+<li><p><strong><code>과제 I</code></strong>: 종목 리스트 생성-2018년 부터 존속하였던 기업(상장일 2018년 1월 1일 이전 기업) 선별</p></li>
+<li><p><strong><code>과제 II</code></strong>: <strong><code>과제I</code></strong> 의 기업 중 거래대금이 1000억 이상 발생했던 특정 날짜 선별 (<code>거래대금</code>=<code>거래량</code>X<code>종가</code> 로 계산)</p></li>
+<li><p><strong><code>과제 III</code></strong>: <strong><code>과제II</code></strong> 의 날짜에 대해 최종 머신러닝 데이터 생성하여 csv 파일로 저장</p></li>
+</ul>
+<p><br></p>
+<p>주가 데이터셋 생성 절차는 <code>df2list</code> - <code>dictionary</code> - <code>MultiProcessing</code> - <code>MySQL</code> 순서로 진행합니다. 4가지 절차를 통해 데이터셋이 달라지는 것은 아니고, 속도를 개선시키는 방향으로의 효율적인 코드를 짜기 위한 훈련 과정입니다. 대규모 데이터셋을 다루기 위해서는 효율적인 코딩을 통해 속도를 개선하는 것도 중요한 일입니다. 특히 이번에 사용하는 주가 데이터셋은 양이 많을 뿐만 아니라, <code>fdr</code> 라이브러리를 사용하여 외부에서 불러와야하기 때문에 데이터셋을 구성하는 것만 해도 속도가 상당히 느립니다. 이러한 문제점을 해결하고자 본 포스팅에서는 4단계에 걸친 데이터셋 생성 과정을 보여줍니다.</p>
+<p><br></p>
+</section>
+<section id="목차" class="level3">
+<h3 class="anchored" data-anchor-id="목차">목차</h3>
+<ul>
+<li><strong>(0)</strong> Finance Data Reader를 이용한 주가 데이터셋 - <code>DataFrame</code></li>
+<li><strong>(1)</strong> Finance Data Reader를 이용한 주가 데이터셋 - <code>df2list</code></li>
+<li><strong>(2)</strong> Finance Data Reader를 이용한 주가 데이터셋 - <code>dictionary</code></li>
+<li><strong>(3)</strong> Finance Data Reader를 이용한 주가 데이터셋 - <code>MultiProcessing</code></li>
+<li><strong>(4)</strong> Finance Data Reader를 이용한 주가 데이터셋 - <code>MySQL</code></li>
+<li><strong>(5)</strong> 최종 머신러닝 데이터셋</li>
+</ul>
+</section>
+<section id="필요-라이브러리-import" class="level3">
+<h3 class="anchored" data-anchor-id="필요-라이브러리-import">필요 라이브러리 <strong>import</strong></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># finance datareader 설치 </span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ! pip install -U finance-datareader</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tqdm <span class="im">import</span> tqdm</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> FinanceDataReader <span class="im">as</span> fdr</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 경고 메시지 무시 </span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(action<span class="op">=</span><span class="st">'ignore'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br> <br></p>
+</section>
+</section>
+<section id="finance-data-reader를-이용한-주가-데이터셋---dataframe" class="level2">
+<h2 class="anchored" data-anchor-id="finance-data-reader를-이용한-주가-데이터셋---dataframe"><strong>(0)</strong> Finance Data Reader를 이용한 주가 데이터셋 - <code>DataFrame</code></h2>
+<p>속도 비교를 위해 기존 데이터의 타입인 <code>DataFrame</code>을 사용하여 데이터셋을 생성합니다.</p>
+<p><strong>과제 I</strong></p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_html(<span class="st">'http://kind.krx.co.kr/corpgeneral/corpList.do?method=download'</span>, header<span class="op">=</span><span class="dv">0</span>)[<span class="dv">0</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 회사명, 종목코드, 상장일 컬럼만 사용 </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>df_code <span class="op">=</span> df[[<span class="st">'회사명'</span>, <span class="st">'종목코드'</span>, <span class="st">'상장일'</span>]]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 종목코드를 6자리로 맞춰 준다. </span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>df_code[<span class="st">'종목코드'</span>] <span class="op">=</span> df_code[<span class="st">'종목코드'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x : <span class="bu">str</span>(x).zfill(<span class="dv">6</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>display(df_code.head(<span class="dv">3</span>))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 상장일이 2018년 1월 1일 이전인 종목코드 선별 </span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>lst_code <span class="op">=</span> df_code.loc[df_code[<span class="st">'상장일'</span>] <span class="op">&lt;</span> <span class="st">'2018-01-01'</span>, <span class="st">'종목코드'</span>].to_list()</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"걸린 시간: "</span>, time.time() <span class="op">-</span> start_time)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'상장일 2018-01-01 이전 종목코드: '</span>, lst_code[:<span class="dv">5</span>])</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'총 </span><span class="sc">{</span><span class="bu">len</span>(df_code)<span class="sc">}</span><span class="ss"> 개의 종목 중 </span><span class="sc">{</span><span class="bu">len</span>(lst_code)<span class="sc">}</span><span class="ss"> 개의 종목 선별'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>회사명</th>
+      <th>종목코드</th>
+      <th>상장일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>DL</td>
+      <td>000210</td>
+      <td>1976-02-02</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>DRB동일</td>
+      <td>004840</td>
+      <td>1976-05-21</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>DSR</td>
+      <td>155660</td>
+      <td>2013-05-15</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+걸린 시간:  0.0006058216094970703
+
+상장일 2018-01-01 이전 종목코드:  ['000210', '004840', '155660', '078930', '001390']
+
+총 2536 개의 종목 중 1972 개의 종목 선별</code></pre>
+</div>
+</div>
+<p><strong>과제 II</strong></p>
+<div class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>stock_dict <span class="op">=</span> {}</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> tqdm(lst_code): </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> fdr.DataReader(code, start<span class="op">=</span><span class="st">'20180101'</span>, end<span class="op">=</span><span class="st">'20201231'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    stock[<span class="st">'trading'</span>] <span class="op">=</span> stock[<span class="st">'Volume'</span>] <span class="op">*</span> stock[<span class="st">'Close'</span>] <span class="co"># 거래대금 컬럼 추가</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">sum</span>(stock[<span class="st">'trading'</span>] <span class="op">&gt;=</span> <span class="dv">100000000000</span>) <span class="op">&gt;=</span> <span class="dv">1</span>: <span class="co"># 거래대금이 1000억 이상인 데이터가 하나 이상 존재하면</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        stock_dict[code] <span class="op">=</span> stock[stock[<span class="st">'trading'</span>] <span class="op">&gt;=</span> <span class="dv">100000000000</span>].index <span class="co"># index == Date </span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'총 </span><span class="sc">{</span><span class="bu">len</span>(lst_code)<span class="sc">}</span><span class="ss"> 개의 종목 중 </span><span class="sc">{</span><span class="bu">len</span>(stock_dict)<span class="sc">}</span><span class="ss"> 개의 종목 사용'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████████████████████████████████████████| 1977/1977 [02:58&lt;00:00, 11.08it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>총 1977 개의 종목 중 799 개의 종목 사용</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+</div>
+<p>먼저, fdrDataReader 패키지를 사용하여 거래대금이 1000억 이상인 데이터의 날짜를 stock_dict에 stock_dict[code] = [날짜,…] 의 형식으로 넣어주었습니다.</p>
+<div class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 선별된 종목과 날짜를 lst_code_date에 넣어준다. </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>lst_code_date <span class="op">=</span> []</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> tqdm(stock_dict): </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> date <span class="kw">in</span> (stock_dict[code]):</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        lst_code_date.append([code, date])</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'선별된 날짜는 총 </span><span class="sc">{</span><span class="bu">len</span>(lst_code_date)<span class="sc">}</span><span class="ss">개'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|█████████████████████████████████████████████| 799/799 [00:00&lt;00:00, 13125.89it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>선별된 날짜는 총 14182개</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+</div>
+<p>lst_code_date에 [코드, 날짜] 형식으로 추가해줍니다.</p>
+<p><strong>과제 III</strong></p>
+<div class="cell" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>data_dict <span class="op">=</span> {<span class="st">'code'</span>: [], <span class="st">'d0'</span>: [], <span class="st">'info'</span>: [], <span class="st">'up'</span>: []}</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code, date <span class="kw">in</span> tqdm(lst_code_date):</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    start_date <span class="op">=</span> <span class="st">'20171201'</span> <span class="co"># 2018년 초반 날짜가 D0라면 2017년 데이터 필요 (D-9~D-1)</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> <span class="st">'20210130'</span> <span class="co"># 2020년 후반 날짜가 D0라면 2021년 데이터 필요 (D+1) </span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> fdr.DataReader(code, start <span class="op">=</span> start_date, end <span class="op">=</span> end_date)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    stock.reset_index(inplace<span class="op">=</span><span class="va">True</span>) <span class="co"># 'Date' index -&gt; column </span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    D9_index <span class="op">=</span> stock[stock[<span class="st">'Date'</span>] <span class="op">==</span> <span class="bu">str</span>(date)].index[<span class="dv">0</span>] <span class="op">-</span> <span class="dv">9</span> <span class="co"># D-9 날짜의 인덱스  </span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    next_index <span class="op">=</span> stock[stock[<span class="st">'Date'</span>] <span class="op">==</span> <span class="bu">str</span>(date)].index[<span class="dv">0</span>] <span class="op">+</span> <span class="dv">1</span> <span class="co"># D+1 날짜의 인덱스  </span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 종목코드 (code)</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    data_dict[<span class="st">'code'</span>].append(code) </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 기준일 (d0)</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    data_dict[<span class="st">'d0'</span>].append(date)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># D-9 ~ D+1, 총 11일치의 sub stock DataFrame 생성 </span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    sub_stock <span class="op">=</span> stock.iloc[D9_index:next_index<span class="op">+</span><span class="dv">1</span>]</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    sub_stock[<span class="st">'trading'</span>] <span class="op">=</span> sub_stock[<span class="st">'Close'</span>] <span class="op">*</span> sub_stock[<span class="st">'Volume'</span>] <span class="co"># 거래대금 컬럼 추가 </span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 10일 간의 데이터 (info)</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    info_list <span class="op">=</span> []</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):        </span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        info_list.append(sub_stock.iloc[i, [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>]].to_list())</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    remove_list<span class="op">=</span>[<span class="st">'['</span>, <span class="st">']'</span>]</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>): </span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>        info_list <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>info_list<span class="sc">}</span><span class="ss">'</span>.replace(remove_list[i], <span class="st">''</span>)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    data_dict[<span class="st">'info'</span>].append(info_list)    </span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># D+1 종가 2% 상승 여부 (up)</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    up <span class="op">=</span> sub_stock.iloc[<span class="op">-</span><span class="dv">2</span>][<span class="st">'Close'</span>] <span class="op">+</span> <span class="fl">0.02</span> <span class="op">*</span> sub_stock.iloc[<span class="op">-</span><span class="dv">2</span>][<span class="st">'Close'</span>]</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> sub_stock.iloc[<span class="op">-</span><span class="dv">1</span>][<span class="st">'Close'</span>] <span class="op">&gt;=</span> up: </span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>        data_dict[<span class="st">'up'</span>].append(<span class="dv">1</span>)</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>: </span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>        data_dict[<span class="st">'up'</span>].append(<span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|████████████████████████████████████████████| 14182/14182 [17:08&lt;00:00, 13.78it/s]</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_result <span class="op">=</span> pd.DataFrame(data_dict)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>display(df_result.head()) </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 최종 결과 데이터셋 txt 파일 저장 </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>df_result.to_csv(<span class="st">"assignment3.txt"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'생성된 데이터의 개수는 </span><span class="sc">{</span><span class="bu">len</span>(pd.read_csv(<span class="st">"assignment3.txt"</span>))<span class="sc">}</span><span class="ss"> 개'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>code</th>
+      <th>d0</th>
+      <th>info</th>
+      <th>up</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>000210</td>
+      <td>2018-01-26</td>
+      <td>78343, 78614, 76987, 77892, 9590608284, 77801,...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>000210</td>
+      <td>2018-08-08</td>
+      <td>68855, 69397, 67590, 69036, 6067435968, 69487,...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>000210</td>
+      <td>2020-04-02</td>
+      <td>44819, 52951, 44322, 51145, 15615437965, 47439...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>000210</td>
+      <td>2020-09-11</td>
+      <td>80783, 84487, 78524, 78524, 61554885076, 79608...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>000210</td>
+      <td>2020-12-11</td>
+      <td>76174, 76174, 72289, 72289, 76043112348, 72831...</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>생성된 데이터의 개수는 14182 개</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>최종적으로 머신러닝 학습을 위한 데이터셋을 처리하는 코드는 총 17분이 걸렸습니다. 연구 초반에 가장 첫 번째로 작성한 코드인데, 지금 보니 확실히 비효율적으로 작성했던 부분이 많은 것 같습니다.</p>
+<p><br></p>
+<p><strong>개선해야할 사항</strong></p>
+<ul>
+<li><p><strong><code>속도 개선</code></strong>: <strong><code>과제III</code></strong> 은 약 17분이 걸린 것을 보아 속도 면에서 상당히 비효율적이었다는 것을 알 수 있습니다. (거래대금을 10억으로 설정했을 때 1% 진행에 5분이 걸렸습니다. 그럼 총 500분이 걸릴 것으로 예상할 수 있습니다.)</p></li>
+<li><p><strong><code># 10일 간의 데이터</code></strong> 부분: <code>info_list</code>에 데이터를 추가하는 과정에서 억지로 포맷을 맞추기 위해 불필요한 <code>for문</code>이 들어갔습니다.</p></li>
+<li><p><strong><code># D+1 종가 2% 상승 여부</code></strong> 부분: 전 날 대비 2% 상승율을 직접 계산해 주었는데, 이미 변화율이 계산 되어 있는 <code>change</code>라는 컬럼을 사용하는 것으로 대체합니다.</p></li>
+<li><p><strong><code>txt 파일 저장</code></strong>: <code>DataFrame</code>으로 생성을 한 후에 <code>txt</code> 파일로 저장했는데, 데이터 생성 시 파일 입출력 <code>write()</code>를 사용해서 바로 <code>txt</code> 파일로 저장하는 방식으로 변경합니다.</p></li>
+</ul>
+<hr>
+<p><br> <br></p>
+</section>
+<section id="finance-data-reader를-이용한-주가-데이터셋---df2list" class="level2">
+<h2 class="anchored" data-anchor-id="finance-data-reader를-이용한-주가-데이터셋---df2list">(1) Finance Data Reader를 이용한 주가 데이터셋 - <code>df2list</code></h2>
+<p>첫번째 방법은 <code>DataFrame</code> 사용을 지양하고, <code>python</code>의 기본 데이터 타입인 <code>list</code>로 바꾸어 사용하는 방법입니다. 이로써 <code>column</code> 중심의 연산을 <code>row</code> 중심의 연산으로 바꾸어줍니다. 이 방법에서는 속도 개선 보다는 <code>(0)</code>번 방법의 코드에서 효율적이지 못했던 부분을 고치고 깔끔한 코드로 보완합니다.</p>
+<p><strong>과제 I</strong></p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># (0) 방법에서 사용했던 df_code 데이터 프레임 사용 </span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>display(df_code.head(<span class="dv">2</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 🌟 dataframe -&gt; list </span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>lst_stock <span class="op">=</span> df_code.values.tolist()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lst_stock[:<span class="dv">2</span>])</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>lst_code <span class="op">=</span> [] <span class="co"># 선별 된 코드를 담을 리스트 </span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> lst_stock:</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    code, date <span class="op">=</span> row[<span class="dv">1</span>], row[<span class="dv">2</span>]</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> date <span class="op">&lt;=</span> <span class="st">'2018-01-01'</span>:</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        lst_code.append(code)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"걸린 시간: "</span>, time.time() <span class="op">-</span> start_time)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'상장일 2018-01-01 이전 종목코드: '</span>, lst_code[:<span class="dv">4</span>])</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'총 </span><span class="sc">{</span><span class="bu">len</span>(df_code)<span class="sc">}</span><span class="ss"> 개의 종목 중 </span><span class="sc">{</span><span class="bu">len</span>(lst_code)<span class="sc">}</span><span class="ss"> 개의 종목 선별'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>회사명</th>
+      <th>종목코드</th>
+      <th>상장일</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>DL</td>
+      <td>000210</td>
+      <td>1976-02-02</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>DRB동일</td>
+      <td>004840</td>
+      <td>1976-05-21</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[['DL', '000210', '1976-02-02'], ['DRB동일', '004840', '1976-05-21']]
+
+걸린 시간:  0.0004563331604003906
+
+상장일 2018-01-01 이전 종목코드:  ['000210', '004840', '155660', '078930']
+
+총 2536 개의 종목 중 1972 개의 종목 선별</code></pre>
+</div>
+</div>
+<p><strong>과제 II</strong></p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>lst_code_date <span class="op">=</span> []</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> tqdm(lst_code):</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> fdr.DataReader(code, start<span class="op">=</span><span class="st">'20180102'</span>, end<span class="op">=</span><span class="st">'20201231'</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    stock.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 🌟 dataframe -&gt; list </span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    lst_stock <span class="op">=</span> stock.values.tolist()</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> lst_stock: </span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        date, trading_value <span class="op">=</span> row[<span class="dv">0</span>], row[<span class="dv">4</span>]<span class="op">*</span>row[<span class="dv">5</span>]</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> trading_value <span class="op">&gt;=</span> <span class="dv">100000000000</span>:  <span class="co"># 거래대금 1000억 이상</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            lst_code_date.append([code, date.date().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>)])</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'선별된 날짜는 총 </span><span class="sc">{</span><span class="bu">len</span>(lst_code_date)<span class="sc">}</span><span class="ss">개'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████████████████████████████████████████| 1977/1977 [02:55&lt;00:00, 11.26it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>선별된 날짜는 총 14182개</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+</div>
+<p><strong>과제 III</strong></p>
+<div class="cell" data-scrolled="true" data-tags="[]" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>OF <span class="op">=</span> <span class="bu">open</span>(<span class="st">'assignment3.txt'</span>,<span class="st">'w'</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code, date <span class="kw">in</span> tqdm(lst_code_date):</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    start_date <span class="op">=</span> <span class="st">'20180101'</span> </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> <span class="st">'20201231'</span> </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> fdr.DataReader(code, start <span class="op">=</span> start_date, end <span class="op">=</span> end_date)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    stock.reset_index(inplace<span class="op">=</span><span class="va">True</span>) <span class="co"># 'Date' index -&gt; column </span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 🌟 dataframe -&gt; list </span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    lst_stock <span class="op">=</span> stock.values.tolist()</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, row <span class="kw">in</span> <span class="bu">enumerate</span>(lst_stock): </span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (idx <span class="op">&lt;</span> <span class="dv">9</span>) <span class="kw">or</span> (idx <span class="op">&gt;=</span> <span class="bu">len</span>(lst_stock)<span class="op">-</span><span class="dv">1</span>): <span class="co"># 예외 처리 </span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span> </span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> row[<span class="dv">0</span>].date().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>) <span class="op">==</span> date: </span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>            <span class="co"># D-9 ~ D0 데이터만 담기</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>            sub_stock <span class="op">=</span> lst_stock[idx<span class="op">-</span><span class="dv">9</span>:idx<span class="op">+</span><span class="dv">1</span>]</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>            <span class="co"># 10일 간의 데이터 </span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>            lst_info <span class="op">=</span> []</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> row2 <span class="kw">in</span> sub_stock:</span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>                lst_prices, trading_value <span class="op">=</span> row2[<span class="dv">1</span>:<span class="dv">5</span>], row[<span class="dv">4</span>]<span class="op">*</span>row[<span class="dv">5</span>]</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>                lst_info <span class="op">+=</span> lst_prices <span class="op">+</span> [trading_value]</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>            info <span class="op">=</span> <span class="st">','</span>.join(<span class="bu">map</span>(<span class="bu">str</span>, lst_info))</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>            <span class="co"># D+1 종가 2% 상승 여부 (up)</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>            change <span class="op">=</span> lst_stock[idx<span class="op">+</span><span class="dv">1</span>][<span class="dv">6</span>]</span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>            label <span class="op">=</span> <span class="bu">int</span>(change <span class="op">&gt;=</span> <span class="fl">0.02</span>)</span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>            <span class="co"># 저장 </span></span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>            OF.write(<span class="ss">f'</span><span class="sc">{</span>code<span class="sc">}</span><span class="ch">\t</span><span class="sc">{</span>date<span class="sc">}</span><span class="ch">\t</span><span class="sc">{</span>lst_info<span class="sc">}</span><span class="ch">\t</span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>OF.close()</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'생성된 데이터의 개수는 </span><span class="sc">{</span><span class="bu">len</span>(pd.read_csv(<span class="st">"assignment3.txt"</span>))<span class="sc">}</span><span class="ss"> 개'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|████████████████████████████████████████████| 14182/14182 [17:43&lt;00:00, 13.33it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>생성된 데이터의 개수는 13939 개</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+</div>
+<ul>
+<li><p><code>OF.write()</code>를 사용함으로써 블필요한 <code>DataFrame</code> 을 생성하지 않습니다.</p></li>
+<li><p><strong># 10일간의 데이터</strong> 부분은 <code>join()</code> 함수를 사용하여 불필요한 for문 사용을 줄였고, <strong># D+1 종가 2% 상승 여부 (up)</strong> 부분은 전날 대비 종가 변화율을 계산하지 않고 <code>change</code> 컬럼을 활용하는 것으로 바꾸었습니다.</p></li>
+<li><p><strong><code>속도에 대한 문제점</code></strong> : 전 보다 깔끔한 코드로 보완이 되었지만, 아직 속도에 대한 문제점이 남아있습니다. 속도를 개선하기 위해서는 <code>fdr</code> 라이브러리를 최소한으로 사용해야 합니다. 하지만 지금 [코드, 날짜]의 형태로 for문이 돌고있기 때문에, 중복되는 같은 Code를 여러 번 불러오고 있습니다. 이를 해결하기 위해 lst_code_date 리스트 대신, <code>dictionary</code>를 사용하는 방법으로 넘어갑니다.</p></li>
+</ul>
+<hr>
+<p><br> <br></p>
+</section>
+<section id="finance-data-reader를-이용한-주가-데이터셋---dictionary" class="level2">
+<h2 class="anchored" data-anchor-id="finance-data-reader를-이용한-주가-데이터셋---dictionary">(2) Finance Data Reader를 이용한 주가 데이터셋 - <code>dictionary</code></h2>
+<p><code>dictionary</code>를 사용하는 방법은 <strong><code>과제III</code></strong> 의 속도를 개선할 수 있습니다. <code>fdr</code> 라이브러리를 최소한으로 사용하고, <code>for</code>문을 최대한 줄입니다. 현재 문제점은 날짜를 기준으로 <code>for</code>문이 돌아가기 때문에 같은 데이터(같은 종목)가 여러번 불러와지는 경우가 다수 존재한다는 것입니다. 따라서 <strong><code>과제II</code></strong> 에서 <code>code</code>별 <code>D0</code> 날짜 리스트를 <code>dictionary</code> 타입으로 생성하고, <strong><code>과제III</code></strong> 에서 <code>code</code> 당 한번만 <code>fdr</code> 라이브러리를 사용하도록 바꾸어 줍니다.</p>
+<p><strong>과제 I</strong></p>
+<p><strong><code>과제I</code></strong> 은 앞의 방법과 같으므로 생략합니다.</p>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'상장일 2018-01-01 이전 종목코드: '</span>, lst_code[:<span class="dv">4</span>])</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'총 </span><span class="sc">{</span><span class="bu">len</span>(df_code)<span class="sc">}</span><span class="ss"> 개의 종목 중 </span><span class="sc">{</span><span class="bu">len</span>(lst_code)<span class="sc">}</span><span class="ss"> 개의 종목 선별'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>상장일 2018-01-01 이전 종목코드:  ['000210', '004840', '155660', '078930']
+
+총 2507 개의 종목 중 1977 개의 종목 선별</code></pre>
+</div>
+</div>
+<p><strong>과제 II</strong></p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dict_code2date <span class="op">=</span> {}</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> tqdm(lst_code): </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    start_date <span class="op">=</span> <span class="st">'20180102'</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> <span class="st">'20201231'</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> fdr.DataReader(code, start <span class="op">=</span> start_date, end <span class="op">=</span> end_date)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    stock.reset_index(inplace<span class="op">=</span><span class="va">True</span>)    </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 🌟 dataframe -&gt; list     </span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    lst_stock <span class="op">=</span> stock.values.tolist()</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> lst_stock: </span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>        date, trading_value <span class="op">=</span> row[<span class="dv">0</span>], row[<span class="dv">4</span>]<span class="op">*</span>row[<span class="dv">5</span>]</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> trading_value <span class="op">&gt;=</span> <span class="dv">100000000000</span>:</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> code <span class="kw">not</span> <span class="kw">in</span> dict_code2date.keys():</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>                dict_code2date[code] <span class="op">=</span> [date.date().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>)]</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>                dict_code2date[code].append(date.date().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>))</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'총 </span><span class="sc">{</span><span class="bu">len</span>(lst_code)<span class="sc">}</span><span class="ss"> 개의 종목 중 </span><span class="sc">{</span><span class="bu">len</span>(dict_code2date)<span class="sc">}</span><span class="ss"> 개의 종목 사용'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|██████████████████████████████████████████████| 1977/1977 [02:42&lt;00:00, 12.14it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>총 1977 개의 종목 중 799 개의 종목 사용</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+</div>
+<p><strong>과제 III</strong></p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>OF <span class="op">=</span> <span class="bu">open</span>(<span class="st">'assignment3.txt'</span>, <span class="st">'w'</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> tqdm(dict_code2date): </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># code의 stock </span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    start_date <span class="op">=</span> <span class="st">'20180101'</span> </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> <span class="st">'20201231'</span> </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> fdr.DataReader(code, start <span class="op">=</span> start_date, end <span class="op">=</span> end_date)</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    stock.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 🌟 dataframe -&gt; list     </span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    lst_stock <span class="op">=</span> stock.values.tolist()  </span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, row <span class="kw">in</span> <span class="bu">enumerate</span>(lst_stock):   </span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (idx <span class="op">&lt;</span> <span class="dv">9</span>) <span class="kw">or</span> (idx <span class="op">&gt;=</span> <span class="bu">len</span>(lst_stock)<span class="op">-</span><span class="dv">1</span>): <span class="co"># 예외 처리 </span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span> </span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>        date <span class="op">=</span> row[<span class="dv">0</span>].date().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>) </span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> date <span class="kw">not</span> <span class="kw">in</span> dict_code2date[code]: <span class="co"># 조건에 부합하는 날짜 (D0 날짜)를 발견할 때까지 continue</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span> </span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># D-9 ~ D0 데이터만 담기</span></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>        sub_stock <span class="op">=</span> lst_stock[idx<span class="op">-</span><span class="dv">9</span>:idx<span class="op">+</span><span class="dv">1</span>] </span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 10일간의 데이터 </span></span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>        lst_info <span class="op">=</span> []</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> row2 <span class="kw">in</span> sub_stock:</span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>            lst_prices, trading_value <span class="op">=</span> row2[<span class="dv">1</span>:<span class="dv">5</span>], row2[<span class="dv">4</span>]<span class="op">*</span>row2[<span class="dv">5</span>]</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>            lst_info <span class="op">+=</span> lst_prices <span class="op">+</span> [trading_value]</span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>        info <span class="op">=</span> <span class="st">','</span>.join(<span class="bu">map</span>(<span class="bu">str</span>, lst_info))</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># D+1 종가 2% 상승 여부 </span></span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="bu">int</span>(lst_stock[idx<span class="op">+</span><span class="dv">1</span>][<span class="dv">6</span>] <span class="op">&gt;=</span> <span class="fl">0.02</span>)</span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 저장 </span></span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>        OF.write(<span class="ss">f'</span><span class="sc">{</span>code<span class="sc">}</span><span class="ch">\t</span><span class="sc">{</span>date<span class="sc">}</span><span class="ch">\t</span><span class="sc">{</span>info<span class="sc">}</span><span class="ch">\t</span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a>                         </span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a>OF.close()   </span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'생성된 데이터의 개수는 </span><span class="sc">{</span><span class="bu">len</span>(pd.read_csv(<span class="st">"assignment3.txt"</span>))<span class="sc">}</span><span class="ss"> 개'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|████████████████████████████████████████████████| 799/799 [01:07&lt;00:00, 11.84it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>생성된 데이터의 개수는 13939 개</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+</div>
+<p>날짜 중심의 for문을 코드 중심으로 변경함으로써 fdr 라이브러리 불러오는 것을 최소화하여, 약 17분이 걸리던 시간이 1분으로 대폭 줄어든 것을 확인할 수 있습니다.</p>
+<hr>
+<p><br> <br></p>
+</section>
+<section id="finance-data-reader를-이용한-주가-데이터셋---multiprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="finance-data-reader를-이용한-주가-데이터셋---multiprocessing">(3) Finance Data Reader를 이용한 주가 데이터셋 - <code>MultiProcessing</code></h2>
+<ul>
+<li><p><code>multi processing(다중 처리)</code>: 컴퓨터 시스템 한 대에 두개 이상의 중앙 처리 장치 (CPU) 를 이용하여 병렬처리하는 것</p></li>
+<li><p><code>python multi processing</code> 문서: <a href="https://docs.python.org/ko/3/library/multiprocessing.html">https://docs.python.org/ko/3/library/multiprocessing.html</a>.</p></li>
+</ul>
+<p><code>python</code>은 <code>multiprocessing</code> 라이브러리를 통해 다중 처리를 지원합니다. 여러 개의 <code>코어</code>를 연산에 사용함으로써 많은 작업을 빠른 시간에 처리해줄 수 있다는 장점이 있습니다.</p>
+<p><img src="01.stock_dataset_files/figure-html/0ffe5b3b-1-2f0f318d-7916-4680-a2ef-1fcd59b168fc.png" class="img-fluid" alt="image.png"> [ <code>core=10</code>으로 설정하여 multi processing을 수행할 때 코어 사용 ]</p>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MultiProcessing을 위한 library import </span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time, os</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> multiprocessing <span class="im">import</span> Pool</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>과제 I</strong></p>
+<p><strong><code>과제I</code></strong> 은 앞의 방법과 같으므로 생략합니다.</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'상장일 2018-01-01 이전 종목코드: '</span>, lst_code[:<span class="dv">4</span>])</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'총 </span><span class="sc">{</span><span class="bu">len</span>(df_code)<span class="sc">}</span><span class="ss"> 개의 종목 중 </span><span class="sc">{</span><span class="bu">len</span>(lst_code)<span class="sc">}</span><span class="ss"> 개의 종목 선별'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>상장일 2018-01-01 이전 종목코드:  ['000210', '004840', '155660', '078930']
+
+총 2507 개의 종목 중 1977 개의 종목 선별</code></pre>
+</div>
+</div>
+<p><strong>과제 II</strong></p>
+<ul>
+<li><code>multi processing</code>을 위한 함수 정의</li>
+</ul>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_lst_result(code): </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    start_date <span class="op">=</span> <span class="st">'20180101'</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> <span class="st">'20201231'</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    lst_date <span class="op">=</span> []</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> fdr.DataReader(code, start <span class="op">=</span> start_date, end <span class="op">=</span> end_date)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    stock.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 🌟 dataframe -&gt; list</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    lst_stock <span class="op">=</span> stock.values.tolist()</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> lst_stock: </span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> row[<span class="dv">4</span>] <span class="op">*</span> row[<span class="dv">5</span>] <span class="op">&gt;=</span> <span class="dv">100000000000</span>: </span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>            lst_date.append(row[<span class="dv">0</span>].date().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>))</span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [code, lst_date]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>multi processing</code> 수행</li>
+</ul>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>num_cores <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>pool <span class="op">=</span> Pool(num_cores)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>lst_code_date <span class="op">=</span> pool.<span class="bu">map</span>(make_lst_result, lst_code)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>pool.close()</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>pool.join()</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(time.time() <span class="op">-</span> start_time) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>17.97966194152832</code></pre>
+</div>
+</div>
+<p>앞서 약 2분 40초 가 걸렸던 <strong><code>과제II</code></strong> 를 <code>multi processing</code>을 사용하여 17초대로 단축시켰습니다.</p>
+<ul>
+<li><code>dictionary</code> 생성</li>
+</ul>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dict_code2date <span class="op">=</span> {}</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code, lst_date  <span class="kw">in</span> tqdm(lst_code_date):</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> lst_date <span class="op">==</span> []:</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    dict_code2date[code] <span class="op">=</span> lst_date</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'총 </span><span class="sc">{</span><span class="bu">len</span>(lst_code)<span class="sc">}</span><span class="ss"> 개의 종목 중 </span><span class="sc">{</span><span class="bu">len</span>(dict_code2date)<span class="sc">}</span><span class="ss"> 개의 종목 사용'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|█████████████████████████████████████████| 1977/1977 [00:00&lt;00:00, 1610124.08it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>총 1977 개의 종목 중 799 개의 종목 사용</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+</div>
+<p><strong>과제 III</strong></p>
+<ul>
+<li><code>multi processing</code>을 위한 함수 정의</li>
+</ul>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_lst_result2(code): </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># code의 stock </span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>    start_date <span class="op">=</span> <span class="st">'20180101'</span> </span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> <span class="st">'20201231'</span> </span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> fdr.DataReader(code, start <span class="op">=</span> start_date, end <span class="op">=</span> end_date)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    stock.reset_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 🌟 dataframe -&gt; list     </span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    lst_stock <span class="op">=</span> stock.values.tolist()  </span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    lst_result <span class="op">=</span> []</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, row <span class="kw">in</span> <span class="bu">enumerate</span>(lst_stock): </span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (idx <span class="op">&lt;</span> <span class="dv">9</span>) <span class="kw">or</span> (idx <span class="op">&gt;=</span> <span class="bu">len</span>(lst_stock)<span class="op">-</span><span class="dv">1</span>): <span class="co"># 예외 처리 </span></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span> </span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>        date <span class="op">=</span> row[<span class="dv">0</span>].date().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>) </span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> date <span class="kw">not</span> <span class="kw">in</span> dict_code2date[code]: <span class="co"># 조건에 부합하는 날짜 (D0 날짜)를 발견할 때까지 continue</span></span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span> </span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># D-9 ~ D0 데이터만 담기</span></span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>        sub_stock <span class="op">=</span> lst_stock[idx<span class="op">-</span><span class="dv">9</span>:idx<span class="op">+</span><span class="dv">1</span>] </span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 10일간의 데이터 </span></span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>        lst_info <span class="op">=</span> []</span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> row2 <span class="kw">in</span> sub_stock:</span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>            lst_prices, trading_value <span class="op">=</span> row2[<span class="dv">1</span>:<span class="dv">5</span>], row2[<span class="dv">4</span>]<span class="op">*</span>row2[<span class="dv">5</span>]</span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>            lst_info <span class="op">+=</span> lst_prices <span class="op">+</span> [trading_value]</span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a>        info <span class="op">=</span> <span class="st">','</span>.join(<span class="bu">map</span>(<span class="bu">str</span>, lst_info))</span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># D+1 종가 2% 상승 여부 </span></span>
+<span id="cb47-33"><a href="#cb47-33" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="bu">int</span>(lst_stock[idx<span class="op">+</span><span class="dv">1</span>][<span class="dv">6</span>] <span class="op">&gt;=</span> <span class="fl">0.02</span>)</span>
+<span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb47-35"><a href="#cb47-35" aria-hidden="true" tabindex="-1"></a>        lst_result.append([code, date, info, label])</span>
+<span id="cb47-36"><a href="#cb47-36" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb47-37"><a href="#cb47-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lst_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><code>multi processing</code> 수행</li>
+</ul>
+<div class="cell" data-scrolled="true" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>num_cores <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>pool <span class="op">=</span> Pool(num_cores)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>lst_data <span class="op">=</span> pool.<span class="bu">map</span>(make_lst_result2, dict_code2date.keys())</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>pool.close()</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>pool.join()</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(time.time() <span class="op">-</span> start_time) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>8.186521768569946</code></pre>
+</div>
+</div>
+<p>앞서 진행했던 방법에서 1분이 걸렸던 작업이 <code>multi processing</code>을 사용하여 8초로 줄어들었습니다.</p>
+<ul>
+<li><code>txt</code> 파일 생성</li>
+</ul>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>OF <span class="op">=</span> <span class="bu">open</span>(<span class="st">"assignment3_multi_processing.txt"</span>, <span class="st">'w'</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> lst_data: </span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> num <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(row)): </span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>        OF.write(<span class="st">'</span><span class="ch">\t</span><span class="st">'</span>.join(<span class="bu">map</span>(<span class="bu">str</span>, row[num])) <span class="op">+</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>)</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>OF.close()</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'생성된 데이터의 개수는 </span><span class="sc">{</span><span class="bu">len</span>(pd.read_csv(<span class="st">"assignment3_multi_processing.txt"</span>))<span class="sc">}</span><span class="ss"> 개'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>생성된 데이터의 개수는 13939 개</code></pre>
+</div>
+</div>
+<hr>
+<p><br> <br></p>
+<section id="finance-data-reader를-이용한-주가-데이터셋---mysql" class="level3">
+<h3 class="anchored" data-anchor-id="finance-data-reader를-이용한-주가-데이터셋---mysql"><strong>(4)</strong> Finance Data Reader를 이용한 주가 데이터셋 - <code>MySQL</code></h3>
+<p>4번째 방법은 <code>MySQL</code>을 사용합니다. 외부 데이터를 불러오지 않아도 되고, 서버 <code>DB</code>에 저장된 데이터를 불러오는 것이므로 <code>multi processing</code>을 사용하지 않고도 빠른 속도로 데이터셋을 생성할 수 있습니다.</p>
+<p><strong>과제 I</strong></p>
+<p>최종적으로 머신러닝 분석에 사용할 데이터셋은 코스피, 코스닥 시장에 해당하는 종목들만을 사용합니다. 현재 <code>db</code>에 저장되어 있는 데이터도 코스피, 코스닥 시장에 해당하는 종목들이 입력되어 있으며, 해당 종목들을 추린 <code>code_list.txt</code>에서 종목들을 불러와 <code>lst_code</code>를 사용합니다.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>IF <span class="op">=</span> <span class="bu">open</span>(<span class="st">'../data/code_list.txt'</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>lst_code <span class="op">=</span> IF.readlines()</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'총 </span><span class="sc">{</span><span class="bu">len</span>(df_code)<span class="sc">}</span><span class="ss"> 개의 종목 중 </span><span class="sc">{</span><span class="bu">len</span>(lst_code)<span class="sc">}</span><span class="ss"> 개의 종목 선별'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>총 2536 개의 종목 중 1561 개의 종목 선별</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pymysql 설치</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ! pip install pymysql</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pymysql </span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sqlalchemy <span class="im">import</span> create_engine</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>MySQL</code> 데이터 저장</strong> (<code>dataframe</code> -&gt; <code>sql</code>) <br></li>
+</ul>
+<p><code>code</code> 별로 다른 테이블에 저장합니다.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>db_connection_str <span class="op">=</span> <span class="st">'mysql+pymysql://[db username]:[db password]@[host address]/[db name]'</span> </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>db_connection <span class="op">=</span> create_engine(db_connection_str)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>conn <span class="op">=</span> db_connection.<span class="ex">connect</span>()</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> tqdm(lst_code): </span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    start_date <span class="op">=</span> <span class="st">'20170101'</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> <span class="st">'20211231'</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> fdr.DataReader(code, start <span class="op">=</span> start_date, end <span class="op">=</span> end_date)</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> stock.reset_index()</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> stock[[<span class="st">'Date'</span>, <span class="st">'Open'</span>, <span class="st">'High'</span>, <span class="st">'Low'</span>, <span class="st">'Close'</span>, <span class="st">'Volume'</span>, <span class="st">'Change'</span>]]</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>    stock.to_sql(name<span class="op">=</span><span class="ss">f'stock_</span><span class="sc">{</span>code<span class="sc">}</span><span class="ss">'</span>, con<span class="op">=</span>db_connection, if_exists<span class="op">=</span><span class="st">'fail'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong><code>MySQL</code> 에서 데이터 불러온 후 데이터셋 생성</strong></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>db_dsml <span class="op">=</span> pymysql.<span class="ex">connect</span>(</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    host <span class="op">=</span> <span class="st">'localhost'</span>, </span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    port <span class="op">=</span> <span class="dv">3306</span>, </span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>    user <span class="op">=</span> <span class="st">'[db username]'</span>, </span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>    passwd <span class="op">=</span> <span class="st">'[db password]'</span>, </span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    db <span class="op">=</span> <span class="st">'[db name]'</span>, </span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    charset <span class="op">=</span> <span class="st">'utf8'</span></span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>cursor <span class="op">=</span> db_dsml.cursor()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>과제 II</strong></p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>dict_code2date <span class="op">=</span> {}</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> tqdm(lst_code): </span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    code <span class="op">=</span> code.strip()</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    sql_query <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="st">                SELECT *</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="st">                FROM stock_</span><span class="sc">{}</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="st">                WHERE Date BETWEEN '2018-01-01' AND '2020-12-31'</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="st">                '''</span>.<span class="bu">format</span>(code)</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> pd.read_sql(sql <span class="op">=</span> sql_query, con <span class="op">=</span> db_dsml)   </span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 🌟 dataframe -&gt; list     </span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>    lst_stock <span class="op">=</span> stock.values.tolist()</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> lst_stock: </span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>        date, trading_value <span class="op">=</span> row[<span class="dv">0</span>], row[<span class="dv">4</span>]<span class="op">*</span>row[<span class="dv">5</span>]</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> trading_value <span class="op">&gt;=</span> <span class="dv">100000000000</span>:</span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> code <span class="kw">not</span> <span class="kw">in</span> dict_code2date.keys():</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>                dict_code2date[code] <span class="op">=</span> [date.date().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>)]</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>                dict_code2date[code].append(date.date().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>))</span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'총 </span><span class="sc">{</span><span class="bu">len</span>(lst_code)<span class="sc">}</span><span class="ss"> 개의 종목 중 </span><span class="sc">{</span><span class="bu">len</span>(dict_code2date)<span class="sc">}</span><span class="ss"> 개의 종목 사용'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████| 1561/1561 [00:18&lt;00:00, 82.67it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>총 1561 개의 종목 중 679 개의 종목 사용</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+</div>
+<p><strong>과제 III</strong></p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>OF <span class="op">=</span> <span class="bu">open</span>(<span class="st">'assignment3_sql.txt'</span>, <span class="st">'w'</span>)</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> code <span class="kw">in</span> tqdm(dict_code2date): </span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>    code <span class="op">=</span> code.strip()</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>    sql_query <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="st">                SELECT *</span></span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a><span class="st">                FROM stock_</span><span class="sc">{}</span></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="st">                WHERE Date BETWEEN '2018-01-01' AND '2020-12-31'</span></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a><span class="st">                '''</span>.<span class="bu">format</span>(code)</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>    stock <span class="op">=</span> pd.read_sql(sql <span class="op">=</span> sql_query, con <span class="op">=</span> db_dsml)  </span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 🌟 dataframe -&gt; list     </span></span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a>    lst_stock <span class="op">=</span> stock.values.tolist()  </span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>       </span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> idx, row <span class="kw">in</span> <span class="bu">enumerate</span>(lst_stock):   </span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (idx <span class="op">&lt;</span> <span class="dv">9</span>) <span class="kw">or</span> (idx <span class="op">&gt;=</span> <span class="bu">len</span>(lst_stock)<span class="op">-</span><span class="dv">1</span>): <span class="co"># 예외 처리 </span></span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span> </span>
+<span id="cb61-17"><a href="#cb61-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb61-18"><a href="#cb61-18" aria-hidden="true" tabindex="-1"></a>        date <span class="op">=</span> row[<span class="dv">0</span>].date().strftime(<span class="st">"%Y%m</span><span class="sc">%d</span><span class="st">"</span>) </span>
+<span id="cb61-19"><a href="#cb61-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> date <span class="kw">not</span> <span class="kw">in</span> dict_code2date[code]: <span class="co"># 조건에 부합하는 날짜 (D0 날짜)를 발견할 때까지 continue</span></span>
+<span id="cb61-20"><a href="#cb61-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span> </span>
+<span id="cb61-21"><a href="#cb61-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-22"><a href="#cb61-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># D-9 ~ D0 데이터만 담기</span></span>
+<span id="cb61-23"><a href="#cb61-23" aria-hidden="true" tabindex="-1"></a>        sub_stock <span class="op">=</span> lst_stock[idx<span class="op">-</span><span class="dv">9</span>:idx<span class="op">+</span><span class="dv">1</span>] </span>
+<span id="cb61-24"><a href="#cb61-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb61-25"><a href="#cb61-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 10일간의 데이터 </span></span>
+<span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a>        lst_info <span class="op">=</span> []</span>
+<span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> row2 <span class="kw">in</span> sub_stock:</span>
+<span id="cb61-28"><a href="#cb61-28" aria-hidden="true" tabindex="-1"></a>            lst_prices, trading_value <span class="op">=</span> row2[<span class="dv">1</span>:<span class="dv">5</span>], row2[<span class="dv">4</span>]<span class="op">*</span>row2[<span class="dv">5</span>]</span>
+<span id="cb61-29"><a href="#cb61-29" aria-hidden="true" tabindex="-1"></a>            lst_info <span class="op">+=</span> lst_prices <span class="op">+</span> [trading_value]</span>
+<span id="cb61-30"><a href="#cb61-30" aria-hidden="true" tabindex="-1"></a>        info <span class="op">=</span> <span class="st">','</span>.join(<span class="bu">map</span>(<span class="bu">str</span>, lst_info))</span>
+<span id="cb61-31"><a href="#cb61-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-32"><a href="#cb61-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># D+1 종가 2% 상승 여부 </span></span>
+<span id="cb61-33"><a href="#cb61-33" aria-hidden="true" tabindex="-1"></a>        label <span class="op">=</span> <span class="bu">int</span>(lst_stock[idx<span class="op">+</span><span class="dv">1</span>][<span class="dv">6</span>] <span class="op">&gt;=</span> <span class="fl">0.02</span>)</span>
+<span id="cb61-34"><a href="#cb61-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-35"><a href="#cb61-35" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 저장 </span></span>
+<span id="cb61-36"><a href="#cb61-36" aria-hidden="true" tabindex="-1"></a>        OF.write(<span class="ss">f'</span><span class="sc">{</span>code<span class="sc">}</span><span class="ch">\t</span><span class="sc">{</span>date<span class="sc">}</span><span class="ch">\t</span><span class="sc">{</span>info<span class="sc">}</span><span class="ch">\t</span><span class="sc">{</span>label<span class="sc">}</span><span class="ch">\n</span><span class="ss">'</span>)</span>
+<span id="cb61-37"><a href="#cb61-37" aria-hidden="true" tabindex="-1"></a>                         </span>
+<span id="cb61-38"><a href="#cb61-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> pd.DataFrame()</span>
+<span id="cb61-39"><a href="#cb61-39" aria-hidden="true" tabindex="-1"></a>OF.close()   </span>
+<span id="cb61-40"><a href="#cb61-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-41"><a href="#cb61-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'생성된 데이터의 개수는 </span><span class="sc">{</span><span class="bu">len</span>(pd.read_csv(<span class="st">"assignment3_sql.txt"</span>))<span class="sc">}</span><span class="ss"> 개'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████| 679/679 [00:09&lt;00:00, 72.67it/s]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>생성된 데이터의 개수는 11934 개</code></pre>
+</div>
+</div>
+<p>MySQL에서 코드별로 저장되어있는 데이터셋을 불러와 9초의 시간이 걸렸습니다. multiprocessing으로 코어를 여러개 쓴 것과 비슷한 결과가 나온 것을 확인하였습니다.</p>
+<hr>
+<p><br> <br></p>
+</section>
+<section id="최종-머신러닝-데이터셋" class="level3">
+<h3 class="anchored" data-anchor-id="최종-머신러닝-데이터셋"><strong>(5)</strong> 최종 머신러닝 데이터셋</h3>
+<p>최종적으로 생성된 머신러닝 데이터셋의 형태를 확인한다.</p>
+<div class="cell" data-execution_count="63">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>IF<span class="op">=</span><span class="bu">open</span>(<span class="st">"assignment3_sql.txt"</span>,<span class="st">'r'</span>)</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>lst_code_date<span class="op">=</span>[]</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>trainX<span class="op">=</span>[]</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>trainY<span class="op">=</span>[]</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> line <span class="kw">in</span> IF:</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>    code, date, x, y <span class="op">=</span> line.strip().split(<span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>    lst_code_date.append([code, date])</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>    trainX.append(<span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, x.split(<span class="st">","</span>))))</span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>    trainY.append(<span class="bu">int</span>(y))</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>trainX<span class="op">=</span>pd.DataFrame(trainX)</span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>trainY<span class="op">=</span>pd.DataFrame(trainY)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="70">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"===== trainX ====="</span>)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"trainX shape:"</span>, trainX.shape)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>display(trainX.head())</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"===== trainY ====="</span>)</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"trainY shape:"</span>, trainY.shape)</span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>display(trainY.head())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>===== trainX =====
+trainX shape: (11935, 50)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>40</th>
+      <th>41</th>
+      <th>42</th>
+      <th>43</th>
+      <th>44</th>
+      <th>45</th>
+      <th>46</th>
+      <th>47</th>
+      <th>48</th>
+      <th>49</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>10250</td>
+      <td>12050</td>
+      <td>10150</td>
+      <td>11800</td>
+      <td>307823874200</td>
+      <td>11950</td>
+      <td>12450</td>
+      <td>10900</td>
+      <td>11750</td>
+      <td>240410569500</td>
+      <td>...</td>
+      <td>15300</td>
+      <td>15400</td>
+      <td>12650</td>
+      <td>13700</td>
+      <td>789063638200</td>
+      <td>13700</td>
+      <td>16100</td>
+      <td>13400</td>
+      <td>15400</td>
+      <td>897154258000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>11950</td>
+      <td>12450</td>
+      <td>10900</td>
+      <td>11750</td>
+      <td>240410569500</td>
+      <td>11850</td>
+      <td>14150</td>
+      <td>11600</td>
+      <td>12600</td>
+      <td>764364560400</td>
+      <td>...</td>
+      <td>13700</td>
+      <td>16100</td>
+      <td>13400</td>
+      <td>15400</td>
+      <td>897154258000</td>
+      <td>14700</td>
+      <td>15500</td>
+      <td>14000</td>
+      <td>14350</td>
+      <td>277027065700</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>11850</td>
+      <td>14150</td>
+      <td>11600</td>
+      <td>12600</td>
+      <td>764364560400</td>
+      <td>12800</td>
+      <td>13200</td>
+      <td>12000</td>
+      <td>12200</td>
+      <td>170010147600</td>
+      <td>...</td>
+      <td>14700</td>
+      <td>15500</td>
+      <td>14000</td>
+      <td>14350</td>
+      <td>277027065700</td>
+      <td>13050</td>
+      <td>13300</td>
+      <td>11650</td>
+      <td>11650</td>
+      <td>231873876050</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>12800</td>
+      <td>13200</td>
+      <td>12000</td>
+      <td>12200</td>
+      <td>170010147600</td>
+      <td>12450</td>
+      <td>13400</td>
+      <td>12350</td>
+      <td>12850</td>
+      <td>211661434950</td>
+      <td>...</td>
+      <td>13050</td>
+      <td>13300</td>
+      <td>11650</td>
+      <td>11650</td>
+      <td>231873876050</td>
+      <td>12200</td>
+      <td>13150</td>
+      <td>11600</td>
+      <td>12200</td>
+      <td>222393934200</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>12450</td>
+      <td>13400</td>
+      <td>12350</td>
+      <td>12850</td>
+      <td>211661434950</td>
+      <td>12800</td>
+      <td>12950</td>
+      <td>11300</td>
+      <td>11700</td>
+      <td>91801277100</td>
+      <td>...</td>
+      <td>12200</td>
+      <td>13150</td>
+      <td>11600</td>
+      <td>12200</td>
+      <td>222393934200</td>
+      <td>12200</td>
+      <td>13750</td>
+      <td>12100</td>
+      <td>12350</td>
+      <td>256196958550</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 50 columns</p>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+===== trainY =====
+trainY shape: (11935, 1)</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<hr>
+<p><br> <br></p>
+<p>4단계의 과정을 거쳐 머신러닝 데이터셋 생성을 마쳤습니다. 다양한 방법을 통해 전처리 코드를 개선시키는 과정을 배울 수 있었고, 시간 효율성을 높이는 것은 중요한 작업임을 깨달았습니다. 17분이 걸리던 작업을 8~9초로 줄였으며, 데이터가 많아질 수록 시간이 더 늘어나기 때문에 시간 효율성의 중요성이 커질 것입니다. 다음 글에서는 생성된 머신러닝 데이터셋을 사용하여 여러 머신러닝 모델을 학습 및 평가하여 성능이 가장 좋은 모델을 선정하는 <code>baseline model selection</code>을 진행합니다.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

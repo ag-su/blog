@@ -1,0 +1,27 @@
+[
+  {
+    "listing": "/index.html",
+    "items": [
+      "/posts/c04.object_detection.html",
+      "/posts/c03.image_classification.html",
+      "/posts/c02.aihub_model_evaluate.html",
+      "/posts/c01.EDA.html",
+      "/posts/use_pil.html",
+      "/posts/서울시_1인가구_시각화.html",
+      "/posts/s03.different_scaling_method.html",
+      "/posts/s02.different_models.html",
+      "/posts/s01.trader_definition.html",
+      "/posts/s00.demo.html",
+      "/posts/08.cluster_filtering.html",
+      "/posts/07.tsne.html",
+      "/posts/06.shap_value.html",
+      "/posts/05.filtering.html",
+      "/posts/04.scaling.html",
+      "/posts/03.add_index.html",
+      "/posts/02.model_selection.html",
+      "/posts/01.stock_dataset.html",
+      "/posts/상권정보분석.html",
+      "/posts/전국_아파트_분양가_분석.html"
+    ]
+  }
+]
