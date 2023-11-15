@@ -2,90 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ag-su.github.io/blog/about.html</loc>
-    <lastmod>2023-06-22T02:26:40.365Z</lastmod>
+    <lastmod>2023-11-15T02:03:05.929Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/index.html</loc>
-    <lastmod>2023-06-22T02:26:43.909Z</lastmod>
+    <lastmod>2023-11-15T02:03:09.188Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/01.stock_dataset.html</loc>
-    <lastmod>2023-06-22T02:26:47.256Z</lastmod>
+    <lastmod>2023-11-15T02:03:12.139Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/02.model_selection.html</loc>
-    <lastmod>2023-06-22T02:26:49.340Z</lastmod>
+    <lastmod>2023-11-15T02:03:14.682Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/03.add_index.html</loc>
-    <lastmod>2023-06-22T02:26:51.899Z</lastmod>
+    <lastmod>2023-11-15T02:03:17.312Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/04.scaling.html</loc>
-    <lastmod>2023-06-22T02:26:54.264Z</lastmod>
+    <lastmod>2023-11-15T02:03:20.032Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/05.filtering.html</loc>
-    <lastmod>2023-06-22T02:26:56.539Z</lastmod>
+    <lastmod>2023-11-15T02:03:23.005Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/06.shap_value.html</loc>
-    <lastmod>2023-06-22T02:26:59.856Z</lastmod>
+    <lastmod>2023-11-15T02:03:26.464Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/07.tsne.html</loc>
-    <lastmod>2023-06-22T02:27:04.468Z</lastmod>
+    <lastmod>2023-11-15T02:03:30.576Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/08.cluster_filtering.html</loc>
-    <lastmod>2023-06-22T02:27:07.291Z</lastmod>
+    <lastmod>2023-11-15T02:03:33.685Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/c01.EDA.html</loc>
-    <lastmod>2023-06-22T02:27:10.677Z</lastmod>
+    <lastmod>2023-11-15T02:03:37.534Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/c02.aihub_model_evaluate.html</loc>
-    <lastmod>2023-06-22T02:27:13.126Z</lastmod>
+    <lastmod>2023-11-15T02:03:40.072Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/c03.image_classification.html</loc>
-    <lastmod>2023-06-22T02:27:16.311Z</lastmod>
+    <lastmod>2023-11-15T02:03:45.643Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/c04.object_detection.html</loc>
-    <lastmod>2023-06-22T02:27:18.958Z</lastmod>
+    <lastmod>2023-11-15T02:03:48.800Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/s00.demo.html</loc>
-    <lastmod>2023-06-22T02:27:21.277Z</lastmod>
+    <lastmod>2023-11-15T02:03:51.426Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/s01.trader_definition.html</loc>
-    <lastmod>2023-06-22T02:27:23.512Z</lastmod>
+    <lastmod>2023-11-15T02:03:54.009Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/s02.different_models.html</loc>
-    <lastmod>2023-06-22T02:27:25.948Z</lastmod>
+    <lastmod>2023-11-15T02:03:56.424Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/s03.different_scaling_method.html</loc>
-    <lastmod>2023-06-22T02:27:29.054Z</lastmod>
+    <lastmod>2023-11-15T02:03:58.931Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/use_pil.html</loc>
-    <lastmod>2023-06-22T02:27:31.268Z</lastmod>
+    <lastmod>2023-11-15T02:04:01.410Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/상권정보분석.html</loc>
-    <lastmod>2023-06-22T02:27:34.345Z</lastmod>
+    <lastmod>2023-11-15T02:04:04.437Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/서울시_1인가구_시각화.html</loc>
-    <lastmod>2023-06-22T02:27:36.784Z</lastmod>
+    <lastmod>2023-11-15T02:04:07.301Z</lastmod>
   </url>
   <url>
     <loc>https://ag-su.github.io/blog/posts/전국_아파트_분양가_분석.html</loc>
-    <lastmod>2023-06-22T02:27:39.549Z</lastmod>
+    <lastmod>2023-11-15T02:04:10.196Z</lastmod>
   </url>
 </urlset>

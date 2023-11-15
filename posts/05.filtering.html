@@ -212,7 +212,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>2. Data Preprocessing</h1>
 <section id="cci를-이용한-주가-데이터-필터링" class="level2">
 <h2 class="anchored" data-anchor-id="cci를-이용한-주가-데이터-필터링">2.3. CCI를 이용한 주가 데이터 필터링</h2>
-<p>이전글 <a href="https://ag-su.github.io/blog/posts/04.scaling.html">2.2. 주가 데이터 스케일링</a> 에서는 통합 종목 주가 데이터셋의 문제점인 종목마다 다른 가격을 표준화해주는 작업을 했습니다. 마지막 데이터 전처리 과정은 CCI를 이용한 주가 데이터 필터링입니다. 매일 쏟아져 나오는 방대한 주가 데이터셋으로부터 특정 패턴을 검출해내는 것은 어려운 과제입니다. 본 연구에서는 그러한 문제점을 최소화하고자, CCI 구간별로 데이터를 필터링 하는 방법을 사용합니다. 이번 글에서는 CCI가 무엇인지 알아보고, CCI를 3가지 구간으로 나누어 필터링 한 데이터로 XGBoost 모델학습을 진행합니다.</p>
+<p>이전글 <a href="https://ag-su.github.io/blog/posts/04.scaling.html">2.2. 주가 데이터 스케일링</a> 에서는 통합 종목 주가 데이터셋의 문제점인 종목마다 다른 가격을 표준화해주는 작업을 했다. 마지막 데이터 전처리 과정은 CCI를 이용한 주가 데이터 필터링이다. 매일 쏟아져 나오는 방대한 주가 데이터셋으로부터 특정 패턴을 검출해내는 것은 어려운 과제다. 본 연구에서는 그러한 문제점을 최소화하고자, CCI 구간별로 데이터를 필터링 하는 방법을 사용한다. 이번 글에서는 CCI가 무엇인지 알아보고, CCI를 3가지 구간으로 나누어 필터링 한 데이터로 XGBoost 모델학습을 진행한다.</p>
 <p><br></p>
 <section id="목차" class="level3">
 <h3 class="anchored" data-anchor-id="목차">목차</h3>
@@ -256,7 +256,7 @@ Populating the interactive namespace from numpy and matplotlib</code></pre>
 </section>
 <section id="cci란" class="level2">
 <h2 class="anchored" data-anchor-id="cci란">(1) CCI란?</h2>
-<p>CCI (상품 채널 지수: Commodity Chnnel Index) 는 일정 기간 동안 주가의 평균값에서 얼마나 떨어졌는지를 보여주는 추세 지표이며, 추세의 방향과 강도를 알 수 있습니다. 추세의 강도만을 알려주는 ADX에 비해 추세의 방향까지 동시에 알려주기 때문에 추세 추종형 거래자들에게 유용한 지표로 사용되고 있고, 추세지표지만 변동성 지표처럼 사용되기도 합니다.</p>
+<p>CCI (상품 채널 지수: Commodity Chnnel Index) 는 일정 기간 동안 주가의 평균값에서 얼마나 떨어졌는지를 보여주는 추세 지표이며, 추세의 방향과 강도를 알 수 있다. 추세의 강도만을 알려주는 ADX에 비해 추세의 방향까지 동시에 알려주기 때문에 추세 추종형 거래자들에게 유용한 지표로 사용되고 있고, 추세지표지만 변동성 지표처럼 사용되기도 한다.</p>
 <p><br></p>
 <p><strong>계산식</strong><br>
 <img src="05.filtering_files/figure-html/8f8d2897-cf04-45e0-abe9-86661fc839da-1-47f73849-36aa-46ea-91dc-e9ce3f0862c0.png" class="img-fluid" alt="image.png"></p>
@@ -277,7 +277,7 @@ Populating the interactive namespace from numpy and matplotlib</code></pre>
 <section id="cci를-활용한-주가데이터-필터링" class="level2">
 <h2 class="anchored" data-anchor-id="cci를-활용한-주가데이터-필터링">(2) CCI를 활용한 주가데이터 필터링</h2>
 <p>본 연구에서는 앞서 살펴본 보조지표 CCI의 범위를 3가지 구간으로 나누어 데이터를 필터링 합니다. 이 때, <strong>이동평균선</strong>으로부터 근접한 <strong>1) 중립구간</strong>, 극단적으로 떨어진 <strong>2) 과열구간/과매수구간</strong> 과 <strong>3) 침체 구간/과매도구간</strong>으로 나눕니다.</p>
-<p>나누는 CCI의 구체적인 구간은 다음과 같습니다.<br>
+<p>나누는 CCI의 구체적인 구간은 다음과 같다.<br>
 <strong><code>1) 중립구간</code></strong> - CCI : (-20, 20)<br>
 <strong><code>2) 과열구간</code></strong> - CCI : (100, <span class="math inline">\(\infty\)</span>)<br>
 <strong><code>3) 침체 구간</code></strong> - CCI : (-<span class="math inline">\(\infty\)</span>,-100)</p>
@@ -387,7 +387,7 @@ Populating the interactive namespace from numpy and matplotlib</code></pre>
 <p><br></p>
 <section id="중립구간-cci--20-20" class="level3">
 <h3 class="anchored" data-anchor-id="중립구간-cci--20-20">1) 중립구간 CCI : (-20, 20)</h3>
-<p>중립구간에서 데이터셋의 개수는 train: 123321, test:36885 개로, 세 구간 중 가장 적은 데이터셋의 개수가 나왔습니다. 정확도는 가장 높지만, auc score는 미미한 결과를 보였습니다.</p>
+<p>중립구간에서 데이터셋의 개수는 train: 123321, test:36885 개로, 세 구간 중 가장 적은 데이터셋의 개수가 나왔다. 정확도는 가장 높지만, auc score는 미미한 결과를 보였다.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>trainX_1, trainY_1, lst_code_date_1 <span class="op">=</span> make_dataset_cci(trading<span class="op">=</span><span class="dv">100000000</span>, cci_d<span class="op">=-</span><span class="dv">20</span>, cci_u<span class="op">=</span><span class="dv">20</span>, train<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>testX_1, testY_1, lst_code_date_test_1 <span class="op">=</span> make_dataset_cci(trading<span class="op">=</span><span class="dv">100000000</span>, cci_d<span class="op">=-</span><span class="dv">20</span>, cci_u<span class="op">=</span><span class="dv">20</span>, train<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -441,7 +441,7 @@ test dataset:  (36885, 560) (36885,)</code></pre>
 </section>
 <section id="과열구간과매수구간-cci-100-infty" class="level3">
 <h3 class="anchored" data-anchor-id="과열구간과매수구간-cci-100-infty">2) 과열구간/과매수구간 CCI : (100, <span class="math inline">\(\infty\)</span>)</h3>
-<p>침체구간에서 데이터셋의 개수는 train: 256399, test:64768 개로, 꽤 많은 데이터셋의 개수가 나왔습니다. 세 구간 중 가장 낮은 분류 성능을 보였습니다.</p>
+<p>침체구간에서 데이터셋의 개수는 train: 256399, test:64768 개로, 꽤 많은 데이터셋의 개수가 나왔다. 세 구간 중 가장 낮은 분류 성능을 보였다.</p>
 <div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>trainX_2, trainY_2, lst_code_date_2 <span class="op">=</span> make_dataset_cci(trading<span class="op">=</span><span class="dv">100000000</span>, cci_d<span class="op">=</span><span class="dv">100</span>, train<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>testX_2, testY_2, lst_code_date_test_2 <span class="op">=</span> make_dataset_cci(trading<span class="op">=</span><span class="dv">100000000</span>, cci_d<span class="op">=</span><span class="dv">100</span>, train<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -495,7 +495,7 @@ test dataset:  (64768, 560) (64768,)</code></pre>
 </section>
 <section id="침체구간과매도구간-cci--infty--100" class="level3">
 <h3 class="anchored" data-anchor-id="침체구간과매도구간-cci--infty--100">3) 침체구간/과매도구간 CCI : (-<span class="math inline">\(\infty\)</span>, -100)</h3>
-<p>침체구간에서 데이터셋의 개수는 train: 269977, test:73435 개로 가장 많은 데이터의 개수가 나왔으며, auc score를 봤을 때, 가장 높은 분류 성능을 보였습니다.</p>
+<p>침체구간에서 데이터셋의 개수는 train: 269977, test:73435 개로 가장 많은 데이터의 개수가 나왔으며, auc score를 봤을 때, 가장 높은 분류 성능을 보였다.</p>
 <div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>trainX_3, trainY_3, lst_code_date_3 <span class="op">=</span> make_dataset_cci(trading<span class="op">=</span><span class="dv">100000000</span>, cci_u<span class="op">=-</span><span class="dv">100</span>, train<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>testX_3, testY_3, lst_code_date_test_3 <span class="op">=</span> make_dataset_cci(trading<span class="op">=</span><span class="dv">100000000</span>, cci_u<span class="op">=-</span><span class="dv">100</span>, train<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -548,7 +548,7 @@ test dataset:  (73435, 560) (73435,)</code></pre>
 <ul>
 <li>데이터셋 저장</li>
 </ul>
-<p>각 학습, 시험 데이터셋과 XGBoost 모델을 pickle 파일로 저장합니다.</p>
+<p>각 학습, 시험 데이터셋과 XGBoost 모델을 pickle 파일로 저장한다.</p>
 <div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#collapse-hide</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle </span>
@@ -560,7 +560,7 @@ test dataset:  (73435, 560) (73435,)</code></pre>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    pickle.dump(dic_dataset_model, handle, protocol<span class="op">=</span>pickle.HIGHEST_PROTOCOL)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
-<p>다음 글에서는 위에서 CCI 구간별로 학습한 XGBoost 모델에 <code>XAI</code> 기법 중 하나인 <code>SHAP value</code>를 적용하여 데이터를 변환하고, 각 구간마다 <code>summary plot</code>을 그려보며 중요한 특성과 그에 대한 해석을 진행하도록 하겠습니다.</p>
+<p>다음 글에서는 위에서 CCI 구간별로 학습한 XGBoost 모델에 <code>XAI</code> 기법 중 하나인 <code>SHAP value</code>를 적용하여 데이터를 변환하고, 각 구간마다 <code>summary plot</code>을 그려보며 중요한 특성과 그에 대한 해석을 진행하도록 한다.</p>
 
 
 </section>

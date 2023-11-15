@@ -211,7 +211,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>1. baseline model</h1>
 <section id="머신러닝-모델-비교" class="level2">
 <h2 class="anchored" data-anchor-id="머신러닝-모델-비교">1.2 머신러닝 모델 비교</h2>
-<p>이전 글 (<a href="https://ag-su.github.io/blog/posts/01.stock_dataset.html">1.1. 머신러닝을 위한 주가 데이터셋 생성</a>) 에서는 머신러닝을 위한 시계열 구조의 데이터셋을 생성했습니다. 이번 글에서는 생성한 데이터셋을 사용하여 머신러닝 모델을 학습하고, 평가지표를 통해 여러 모델의 성능을 비교하여 가장 좋은 성능을 보이는 모델을 선택합니다. 이를 통해 생성한 기본 시계열 데이터셋을 머신러닝 알고리즘으로 학습시켰을 때, 최소한의 성능과 수익률이 발생하는지 확인할 수 있고, 이를 통해 <code>baseline model</code>을 정의합니다.</p>
+<p>이전 글 (<a href="https://ag-su.github.io/blog/posts/01.stock_dataset.html">1.1. 머신러닝을 위한 주가 데이터셋 생성</a>) 에서는 머신러닝을 위한 시계열 구조의 데이터셋을 생성했다. 이번 글에서는 생성한 데이터셋을 사용하여 머신러닝 모델을 학습하고, 평가지표를 통해 여러 모델의 성능을 비교하여 가장 좋은 성능을 보이는 모델을 선택한다. 이를 통해 생성한 기본 시계열 데이터셋을 머신러닝 알고리즘으로 학습시켰을 때, 최소한의 성능과 수익률이 발생하는지 확인할 수 있고, 이를 통해 <code>baseline model</code>을 정의한다.</p>
 <p><br></p>
 <section id="목차" class="level3">
 <h3 class="anchored" data-anchor-id="목차">목차</h3>
@@ -251,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="주가-예측-머신러닝-모델-비교">주가 예측 머신러닝 모델 비교</h2>
 <section id="데이터-불러오기" class="level3">
 <h3 class="anchored" data-anchor-id="데이터-불러오기">(1) 데이터 불러오기</h3>
-<p>지난 글에서 생성한 데이터셋을 불러옵니다. <code>train</code>은 2018.01.02 ~ 2020.12.31, <code>test</code>는 2021.01.02 ~ 2021.06.31 설정한 데이터셋입니다.</p>
+<p>지난 글에서 생성한 데이터셋을 불러온다. <code>train</code>은 2018.01.02 ~ 2020.12.31, <code>test</code>는 2021.01.02 ~ 2021.06.31 설정한 데이터셋이다.</p>
 <ul>
 <li><code>train dataset</code></li>
 </ul>
@@ -301,7 +301,7 @@ test dataset:  (4431, 50) (4431, 1)</code></pre>
 </section>
 <section id="주가-예측-머신러닝-모델-학습" class="level3">
 <h3 class="anchored" data-anchor-id="주가-예측-머신러닝-모델-학습">(2) 주가 예측 머신러닝 모델 학습</h3>
-<p>앞서 불러온 주가 데이터셋으로 여러 개의 머신러닝 모델을 학습합니다. 모델은 총 9개의 분류 알고리즘을 사용하여 비교합니다.</p>
+<p>앞서 불러온 주가 데이터셋으로 여러 개의 머신러닝 모델을 학습한다. 모델은 총 9개의 분류 알고리즘을 사용하여 비교한다.</p>
 <p><br></p>
 <p><strong>model list</strong> - Logistic Regression - Decision tree - Support vector machine - Gaussian naive bayes - K nearest neighbor - Random forest - Gradient boosing - Neural network - XGBoost</p>
 <p><br></p>
@@ -385,7 +385,7 @@ test dataset:  (4431, 50) (4431, 1)</code></pre>
 <ul>
 <li>예측</li>
 </ul>
-<p>학습시킨 모델 별로 Accuracy와 AUC score를 측정하여, <code>lst_result_acc</code>, <code>lst_result_roc</code> 리스트에 추가합니다.</p>
+<p>학습시킨 모델 별로 Accuracy와 AUC score를 측정하여, <code>lst_result_acc</code>, <code>lst_result_roc</code> 리스트에 추가한다.</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lst_model <span class="op">=</span> [lr, dt, svc, gnb, knn, rf, gb, mlp, xgb]</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -428,8 +428,8 @@ auc score list:  [['LogisticRegression', 0.5318105913341066, 0.5430800870053489]
 </section>
 <section id="평가지표-시각화를-통한-모델-평가" class="level3">
 <h3 class="anchored" data-anchor-id="평가지표-시각화를-통한-모델-평가">(3) 평가지표 시각화를 통한 모델 평가</h3>
-<p>위에서 얻은 9가지 모델의 평가 지표(<code>accuracy</code>, <code>auc score</code>) 결과 리스트를 받아 모델 별로 평가지표를 비교하는 <code>bar graph</code> 시각화 함수를 작성합니다.<br>
-<code>test</code> 데이터셋의 성능이 높은 순서대로 정렬하여 시각화합니다.</p>
+<p>위에서 얻은 9가지 모델의 평가 지표(<code>accuracy</code>, <code>auc score</code>) 결과 리스트를 받아 모델 별로 평가지표를 비교하는 <code>bar graph</code> 시각화 함수를 작성한다.<br>
+<code>test</code> 데이터셋의 성능이 높은 순서대로 정렬하여 시각화한다.</p>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> result_plot(lst:<span class="bu">list</span>, index:<span class="bu">str</span>): </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
@@ -484,7 +484,7 @@ auc score list:  [['LogisticRegression', 0.5318105913341066, 0.5430800870053489]
 <p><img src="02.model_selection_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>Accuracy는 Logistic Regression, ROCAUC는 XGBoost가 가장 높은 값을 얻은 것을 확인할 수 있습니다.</p>
+<p>Accuracy는 Logistic Regression, ROCAUC는 XGBoost가 가장 높은 값을 얻은 것을 확인하였다.</p>
 <p><br> <br></p>
 </section>
 <section id="모델-선택" class="level3">
@@ -492,7 +492,7 @@ auc score list:  [['LogisticRegression', 0.5318105913341066, 0.5430800870053489]
 <ul>
 <li><strong>1) 선택 기준 평가지표 선택 - 종속변수 불균형 문제</strong></li>
 </ul>
-<p>모델 선택을 위해 사용할 평가지표를 선택합니다.</p>
+<p>모델 선택을 위해 사용할 평가지표를 선택한다.</p>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -544,12 +544,12 @@ auc score list:  [['LogisticRegression', 0.5318105913341066, 0.5430800870053489]
 <p><img src="02.model_selection_files/figure-html/cell-11-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p>이진분류 된 종속변수를 <code>countplot</code>으로 시각화하여 분포를 살펴보았을 때, 종속변수가 0인 데이터의 비율이 높은 것을 확인할 수 있습니다. 이는 모델이 모두 0이라고 예측해도 정확도가 76~77%가 나온다는 뜻입니다. 따라서 정확도는 해당 주가 데이터를 평가하기 위한 지표로는 신뢰성이 떨어진다고 판단되어, <code>threshold</code>별 <code>score</code>가 결정되는 <code>ROCAUC score</code>를 기준으로 모델을 선택합니다.</p>
+<p>이진분류 된 종속변수를 <code>countplot</code>으로 시각화하여 분포를 살펴보았을 때, 종속변수가 0인 데이터의 비율이 높은 것을 확인할 수 있습니다. 이는 모델이 모두 0이라고 예측해도 정확도가 76~77%가 나온다는 뜻이다. 따라서 정확도는 해당 주가 데이터를 평가하기 위한 지표로는 신뢰성이 떨어진다고 판단되어, <code>threshold</code>별 <code>score</code>가 결정되는 <code>ROCAUC score</code>를 기준으로 모델을 선택한다.</p>
 <p><br></p>
 <ul>
 <li><strong>2) 예측 신뢰성</strong></li>
 </ul>
-<p><code>test dataset</code>의 <code>AUC</code>가 높은 상위 2개 모델(<code>XGBoost</code>, <code>GradientBoosting</code>)의 예측 확률을 살펴봅니다.</p>
+<p><code>test dataset</code>의 <code>AUC</code>가 높은 상위 2개 모델(<code>XGBoost</code>, <code>GradientBoosting</code>)의 예측 확률을 살펴본다.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>xgb_prob <span class="op">=</span> xgb.predict_proba(testX)[:, <span class="dv">1</span>] </span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>gb_prob <span class="op">=</span> gb.predict_proba(testX)[:, <span class="dv">1</span>]</span>
@@ -561,7 +561,7 @@ auc score list:  [['LogisticRegression', 0.5318105913341066, 0.5430800870053489]
 GB: 1 개</code></pre>
 </div>
 </div>
-<p><code>class</code>를 <code>1</code>로 예측할 확률이 <code>60%</code> 이상인 데이터의 개수를 확인해보면, <code>XGBoost</code>는 <code>1268</code>개, <code>GradientBoosting</code>은 <code>1</code>개가 나옵니다.</p>
+<p><code>class</code>를 <code>1</code>로 예측할 확률이 <code>60%</code> 이상인 데이터의 개수를 확인해보면, <code>XGBoost</code>는 <code>1268</code>개, <code>GradientBoosting</code>은 <code>1</code>개가 나온다.</p>
 <hr>
 <p><strong>1)</strong>, <strong>2)</strong> 를 근거로 하여 여러 머신러닝 모델 중 <code>AUC</code> 점수 1위인 동시에, 예측 신뢰성이 더 높다고 판단되는 <strong><code>XGBoost</code></strong> 를 최종적으로 <code>baseline</code> 머신러닝 모델로 결정합니다.</p>
 <p><br> <br></p>
@@ -570,127 +570,127 @@ GB: 1 개</code></pre>
 <h3 class="anchored" data-anchor-id="baseline-모델-정리-및-수익률-측정">baseline 모델 정리 및 수익률 측정</h3>
 <p><strong>baseline 모델 정리</strong></p>
 <ul>
-<li><p><strong>데이터</strong></p>
+<li><strong>데이터</strong>
 <ul>
 <li>종목: kospi + kosdaq 주식 시장 3년 이상 존속하였던 종목들</li>
 <li>기간: 2018.01.01-2020.12.31 (총 3년)</li>
 <li>필터링: 거래대금 1000억 이상</li>
 <li>구조: 10일 간의 데이터들을 feature로 두어 시계열 데이터셋 생성</li>
 </ul></li>
-<li><p><strong>모델</strong><br>
+<li><strong>모델</strong><br>
 XGBClassifier(<br>
 n_jobs=40,<br>
 scale_pos_weight=4,<br>
 learning_rate=0.01,<br>
 max_depth=3,<br>
-n_estimators=500,</p>
-<pre><code>             ) </code></pre></li>
+n_estimators=500,<br>
+)</li>
 </ul>
 <p><strong>수익률 측정</strong><br>
-baseline모델을 선정하였으므로 프로젝트에서 중요한 부분인 수익률 측정을 수행합니다.</p>
+baseline모델을 선정하였으므로 프로젝트에서 중요한 부분인 수익률 측정을 수행한다.</p>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'XGB:'</span>, <span class="bu">sum</span>(xgb_prob <span class="op">&gt;=</span> <span class="fl">0.65</span>), <span class="st">'개'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'XGB:'</span>, <span class="bu">sum</span>(xgb_prob <span class="op">&gt;=</span> <span class="fl">0.65</span>), <span class="st">'개'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>XGB: 34 개</code></pre>
 </div>
 </div>
-<p>해당 수익률 계산 시뮬레이션에서는 prob 임계값을 0.65로 설정함으로써 6개월 동안 1~2주에 한번 꼴로 매매가 이루어지도록 하였습니다.</p>
+<p>해당 수익률 계산 시뮬레이션에서는 prob 임계값을 0.65로 설정함으로써 6개월 동안 1~2주에 한번 꼴로 매매가 이루어지도록 하였다.</p>
 <div class="cell" data-execution_count="45">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_earnings_rate(lst_code_date, probY):</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">##### DB </span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    db_dsml <span class="op">=</span> pymysql.<span class="ex">connect</span>(</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>        host <span class="op">=</span> <span class="st">'localhost'</span>, </span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        port <span class="op">=</span> <span class="dv">3306</span>, </span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        user <span class="op">=</span> <span class="st">'[db username]'</span>, </span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        passwd <span class="op">=</span> <span class="st">'[db password]'</span>, </span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        db <span class="op">=</span> <span class="st">'[db name]'</span>, </span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        charset <span class="op">=</span> <span class="st">'utf8'</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    cursor <span class="op">=</span> db_dsml.cursor()</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">##### 주문 일지 작성 #####</span></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    lst_output<span class="op">=</span>[]</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (code, date), y <span class="kw">in</span> <span class="bu">zip</span>(lst_code_date, probY):</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> y <span class="op">&gt;=</span> <span class="fl">0.65</span>: <span class="co"># 예측 확률 (probY) 임계값 0.65 </span></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>            lst_output.append([code, date, <span class="st">"buy"</span>, <span class="st">"all"</span>])  </span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>            lst_output.append([code, date<span class="op">+</span><span class="st">"n"</span>, <span class="st">"sell"</span>, <span class="st">"all"</span>])  </span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    lst_output.sort(key<span class="op">=</span><span class="kw">lambda</span> x:x[<span class="dv">1</span>]) <span class="co"># 날짜로 정렬 </span></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">##### 수익률 계산 #####</span></span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>    start_money <span class="op">=</span> <span class="dv">10000000</span> <span class="co"># 초기 현금 1천만원</span></span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>    money <span class="op">=</span> start_money</span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>    dic_code2num <span class="op">=</span>{}  <span class="co"># 보유 종목</span></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, row <span class="kw">in</span> <span class="bu">enumerate</span>(tqdm(lst_output)): <span class="co"># 주문 일지를 한 줄 읽어 옴</span></span>
-<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>        code, date, request, amount <span class="op">=</span> row</span>
-<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>        sql_query <span class="op">=</span> <span class="st">'''</span></span>
-<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="st">                    SELECT *</span></span>
-<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a><span class="st">                    FROM stock_</span><span class="sc">{}</span></span>
-<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a><span class="st">                    WHERE Date BETWEEN '2021-01-01' AND '2021-06-31'</span></span>
-<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="st">                    '''</span>.<span class="bu">format</span>(code)</span>
-<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>        stock <span class="op">=</span> pd.read_sql(sql <span class="op">=</span> sql_query, con <span class="op">=</span> db_dsml)</span>
-<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>        lst_data <span class="op">=</span> stock.values.tolist()    </span>
-<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> idx, row <span class="kw">in</span> <span class="bu">enumerate</span>(lst_data):</span>
-<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>            data_date <span class="op">=</span> row[<span class="dv">0</span>].date().strftime(<span class="st">'%Y%m</span><span class="sc">%d</span><span class="st">'</span>)</span>
-<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="st">'n'</span> <span class="kw">in</span> date: <span class="co"># 매도 날짜</span></span>
-<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a>                date_n <span class="op">=</span> date[:<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> data_date <span class="op">==</span> date_n: </span>
-<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a>                    close <span class="op">=</span> lst_data[idx<span class="op">+</span><span class="dv">1</span>][<span class="op">-</span><span class="dv">3</span>] <span class="co"># 매도 할 종가 (매수 다음날 종가)</span></span>
-<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">break</span>            </span>
-<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>: <span class="co"># 매수 날짜 </span></span>
-<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> data_date <span class="op">==</span> date:</span>
-<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a>                    close <span class="op">=</span> row[<span class="op">-</span><span class="dv">3</span>] <span class="co"># 매수 할 종가 </span></span>
-<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">break</span></span>
-<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> request <span class="op">==</span> <span class="st">'buy'</span>: <span class="co"># 매수 </span></span>
-<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> amount.startswith(<span class="st">'r'</span>): <span class="co"># 분할 매수 시 사용 </span></span>
-<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a>                request_money <span class="op">=</span> money <span class="op">*</span> <span class="bu">float</span>(amount.lstrip(<span class="st">"r"</span>)) <span class="op">/</span> <span class="dv">100</span></span>
-<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> amount <span class="op">==</span> <span class="st">'all'</span>:</span>
-<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a>                request_money <span class="op">=</span> money</span>
-<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> amount.isdigit():</span>
-<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a>                request_money <span class="op">=</span> <span class="bu">int</span>(amount)</span>
-<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">'Not permitted option'</span>)</span>
-<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a>            request_money <span class="op">=</span> <span class="bu">min</span>(request_money, money)</span>
-<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a>            buy_num <span class="op">=</span> <span class="bu">int</span>(request_money <span class="op">/</span> close) <span class="co"># 매수 개수 </span></span>
-<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a>            money <span class="op">-=</span> buy_num <span class="op">*</span> close  <span class="co"># 매수 후 잔고 업데이트 </span></span>
-<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb21-71"><a href="#cb21-71" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> code <span class="kw">not</span> <span class="kw">in</span> dic_code2num: <span class="co"># 현재 보유종목이 아니라면 </span></span>
-<span id="cb21-72"><a href="#cb21-72" aria-hidden="true" tabindex="-1"></a>                dic_code2num[code] <span class="op">=</span> <span class="dv">0</span> <span class="co"># dict에 key 생성 </span></span>
-<span id="cb21-73"><a href="#cb21-73" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb21-74"><a href="#cb21-74" aria-hidden="true" tabindex="-1"></a>            dic_code2num[code] <span class="op">+=</span> buy_num <span class="co"># 해당 종목의 보유 개수 업데이트</span></span>
-<span id="cb21-75"><a href="#cb21-75" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb21-76"><a href="#cb21-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> request <span class="op">==</span> <span class="st">'sell'</span>: <span class="co"># 매도 </span></span>
-<span id="cb21-77"><a href="#cb21-77" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> amount <span class="op">==</span> <span class="st">'all'</span>:   </span>
-<span id="cb21-78"><a href="#cb21-78" aria-hidden="true" tabindex="-1"></a>                sell_num <span class="op">=</span> dic_code2num[code] <span class="co"># 해당 종목의 보유하고 있는 모든 개수 매도</span></span>
-<span id="cb21-79"><a href="#cb21-79" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb21-80"><a href="#cb21-80" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">'Not permitted option'</span>)       </span>
-<span id="cb21-81"><a href="#cb21-81" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb21-82"><a href="#cb21-82" aria-hidden="true" tabindex="-1"></a>            money <span class="op">+=</span> sell_num <span class="op">*</span> close <span class="co"># 매도 후 잔고 업데이트 </span></span>
-<span id="cb21-83"><a href="#cb21-83" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb21-84"><a href="#cb21-84" aria-hidden="true" tabindex="-1"></a>            dic_code2num[code] <span class="op">-=</span> sell_num <span class="co"># 해당 종목 매도 후 보유 개수 업데이트 </span></span>
-<span id="cb21-85"><a href="#cb21-85" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> dic_code2num[code] <span class="op">==</span> <span class="dv">0</span>: <span class="co"># 해당 종목이 보유하고 있는 개수가 없다면 </span></span>
-<span id="cb21-86"><a href="#cb21-86" aria-hidden="true" tabindex="-1"></a>                <span class="kw">del</span> dic_code2num[code] <span class="co"># 보유종목에서 삭제 </span></span>
-<span id="cb21-87"><a href="#cb21-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-88"><a href="#cb21-88" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dic_code2num <span class="op">!=</span> {}: <span class="co"># 주문일지를 모두 돌고난 후에는 보유종목 dict가 비어있어야 함. </span></span>
-<span id="cb21-89"><a href="#cb21-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">'Not empty stock'</span>) </span>
-<span id="cb21-90"><a href="#cb21-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-91"><a href="#cb21-91" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Final earning rate : </span><span class="sc">{}</span><span class="st"> %"</span>.<span class="bu">format</span>(<span class="bu">str</span>((money<span class="op">-</span>start_money) <span class="op">/</span> start_money <span class="op">*</span> <span class="dv">100</span>)))</span>
-<span id="cb21-92"><a href="#cb21-92" aria-hidden="true" tabindex="-1"></a><span class="co">#     return str((money-start_money) / start_money * 100)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_earnings_rate(lst_code_date, probY):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">##### DB </span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    db_dsml <span class="op">=</span> pymysql.<span class="ex">connect</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        host <span class="op">=</span> <span class="st">'localhost'</span>, </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        port <span class="op">=</span> <span class="dv">3306</span>, </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>        user <span class="op">=</span> <span class="st">'[db username]'</span>, </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>        passwd <span class="op">=</span> <span class="st">'[db password]'</span>, </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>        db <span class="op">=</span> <span class="st">'[db name]'</span>, </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>        charset <span class="op">=</span> <span class="st">'utf8'</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    cursor <span class="op">=</span> db_dsml.cursor()</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">##### 주문 일지 작성 #####</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    lst_output<span class="op">=</span>[]</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (code, date), y <span class="kw">in</span> <span class="bu">zip</span>(lst_code_date, probY):</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> y <span class="op">&gt;=</span> <span class="fl">0.65</span>: <span class="co"># 예측 확률 (probY) 임계값 0.65 </span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>            lst_output.append([code, date, <span class="st">"buy"</span>, <span class="st">"all"</span>])  </span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>            lst_output.append([code, date<span class="op">+</span><span class="st">"n"</span>, <span class="st">"sell"</span>, <span class="st">"all"</span>])  </span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>    lst_output.sort(key<span class="op">=</span><span class="kw">lambda</span> x:x[<span class="dv">1</span>]) <span class="co"># 날짜로 정렬 </span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">##### 수익률 계산 #####</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>    start_money <span class="op">=</span> <span class="dv">10000000</span> <span class="co"># 초기 현금 1천만원</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>    money <span class="op">=</span> start_money</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    dic_code2num <span class="op">=</span>{}  <span class="co"># 보유 종목</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, row <span class="kw">in</span> <span class="bu">enumerate</span>(tqdm(lst_output)): <span class="co"># 주문 일지를 한 줄 읽어 옴</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>        code, date, request, amount <span class="op">=</span> row</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>        sql_query <span class="op">=</span> <span class="st">'''</span></span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a><span class="st">                    SELECT *</span></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="st">                    FROM stock_</span><span class="sc">{}</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a><span class="st">                    WHERE Date BETWEEN '2021-01-01' AND '2021-06-31'</span></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a><span class="st">                    '''</span>.<span class="bu">format</span>(code)</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>        stock <span class="op">=</span> pd.read_sql(sql <span class="op">=</span> sql_query, con <span class="op">=</span> db_dsml)</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>        lst_data <span class="op">=</span> stock.values.tolist()    </span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> idx, row <span class="kw">in</span> <span class="bu">enumerate</span>(lst_data):</span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>            data_date <span class="op">=</span> row[<span class="dv">0</span>].date().strftime(<span class="st">'%Y%m</span><span class="sc">%d</span><span class="st">'</span>)</span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="st">'n'</span> <span class="kw">in</span> date: <span class="co"># 매도 날짜</span></span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a>                date_n <span class="op">=</span> date[:<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> data_date <span class="op">==</span> date_n: </span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a>                    close <span class="op">=</span> lst_data[idx<span class="op">+</span><span class="dv">1</span>][<span class="op">-</span><span class="dv">3</span>] <span class="co"># 매도 할 종가 (매수 다음날 종가)</span></span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">break</span>            </span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>: <span class="co"># 매수 날짜 </span></span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> data_date <span class="op">==</span> date:</span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a>                    close <span class="op">=</span> row[<span class="op">-</span><span class="dv">3</span>] <span class="co"># 매수 할 종가 </span></span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">break</span></span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> request <span class="op">==</span> <span class="st">'buy'</span>: <span class="co"># 매수 </span></span>
+<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> amount.startswith(<span class="st">'r'</span>): <span class="co"># 분할 매수 시 사용 </span></span>
+<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a>                request_money <span class="op">=</span> money <span class="op">*</span> <span class="bu">float</span>(amount.lstrip(<span class="st">"r"</span>)) <span class="op">/</span> <span class="dv">100</span></span>
+<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> amount <span class="op">==</span> <span class="st">'all'</span>:</span>
+<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a>                request_money <span class="op">=</span> money</span>
+<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> amount.isdigit():</span>
+<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a>                request_money <span class="op">=</span> <span class="bu">int</span>(amount)</span>
+<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">'Not permitted option'</span>)</span>
+<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a>            request_money <span class="op">=</span> <span class="bu">min</span>(request_money, money)</span>
+<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a>            buy_num <span class="op">=</span> <span class="bu">int</span>(request_money <span class="op">/</span> close) <span class="co"># 매수 개수 </span></span>
+<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb20-69"><a href="#cb20-69" aria-hidden="true" tabindex="-1"></a>            money <span class="op">-=</span> buy_num <span class="op">*</span> close  <span class="co"># 매수 후 잔고 업데이트 </span></span>
+<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> code <span class="kw">not</span> <span class="kw">in</span> dic_code2num: <span class="co"># 현재 보유종목이 아니라면 </span></span>
+<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a>                dic_code2num[code] <span class="op">=</span> <span class="dv">0</span> <span class="co"># dict에 key 생성 </span></span>
+<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a>            dic_code2num[code] <span class="op">+=</span> buy_num <span class="co"># 해당 종목의 보유 개수 업데이트</span></span>
+<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> request <span class="op">==</span> <span class="st">'sell'</span>: <span class="co"># 매도 </span></span>
+<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> amount <span class="op">==</span> <span class="st">'all'</span>:   </span>
+<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a>                sell_num <span class="op">=</span> dic_code2num[code] <span class="co"># 해당 종목의 보유하고 있는 모든 개수 매도</span></span>
+<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a>                <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">'Not permitted option'</span>)       </span>
+<span id="cb20-81"><a href="#cb20-81" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a>            money <span class="op">+=</span> sell_num <span class="op">*</span> close <span class="co"># 매도 후 잔고 업데이트 </span></span>
+<span id="cb20-83"><a href="#cb20-83" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb20-84"><a href="#cb20-84" aria-hidden="true" tabindex="-1"></a>            dic_code2num[code] <span class="op">-=</span> sell_num <span class="co"># 해당 종목 매도 후 보유 개수 업데이트 </span></span>
+<span id="cb20-85"><a href="#cb20-85" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> dic_code2num[code] <span class="op">==</span> <span class="dv">0</span>: <span class="co"># 해당 종목이 보유하고 있는 개수가 없다면 </span></span>
+<span id="cb20-86"><a href="#cb20-86" aria-hidden="true" tabindex="-1"></a>                <span class="kw">del</span> dic_code2num[code] <span class="co"># 보유종목에서 삭제 </span></span>
+<span id="cb20-87"><a href="#cb20-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-88"><a href="#cb20-88" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dic_code2num <span class="op">!=</span> {}: <span class="co"># 주문일지를 모두 돌고난 후에는 보유종목 dict가 비어있어야 함. </span></span>
+<span id="cb20-89"><a href="#cb20-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="st">'Not empty stock'</span>) </span>
+<span id="cb20-90"><a href="#cb20-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-91"><a href="#cb20-91" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Final earning rate : </span><span class="sc">{}</span><span class="st"> %"</span>.<span class="bu">format</span>(<span class="bu">str</span>((money<span class="op">-</span>start_money) <span class="op">/</span> start_money <span class="op">*</span> <span class="dv">100</span>)))</span>
+<span id="cb20-92"><a href="#cb20-92" aria-hidden="true" tabindex="-1"></a><span class="co">#     return str((money-start_money) / start_money * 100)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="46">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>compute_earnings_rate(lst_code_date_test, xgb_prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>compute_earnings_rate(lst_code_date_test, xgb_prob)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>100%|█████████████████████████████████████████████| 68/68 [00:00&lt;00:00, 265.33it/s]</code></pre>
 </div>
@@ -701,8 +701,8 @@ baseline모델을 선정하였으므로 프로젝트에서 중요한 부분인 �
 <pre><code></code></pre>
 </div>
 </div>
-<p>최종적으로 baseline 모델의 수익률을 계산해봤을 때, 6개월간의 총 수익률은 약 54%가 나왔다. 평가지표인 ROCAUC score는 낮은 편에 속했지만, 높은 수익률을 보였습니다.<br>
-다음 글 부터는 <code>data preprocessing</code>을 진행하며, 주가 빅데이터의 질을 높여 baseline model 보다 뛰어난 성능을 보이도록 개선합니다.</p>
+<p>최종적으로 baseline 모델의 수익률을 계산해봤을 때, 6개월간의 총 수익률은 약 54%가 나왔다. 평가지표인 ROCAUC score는 낮은 편에 속했지만, 높은 수익률을 보였다.<br>
+다음 글 부터는 <code>data preprocessing</code>을 진행하며, 주가 빅데이터의 질을 높여 baseline model 보다 뛰어난 성능을 보이도록 개선한다.</p>
 
 
 </section>

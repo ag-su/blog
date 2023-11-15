@@ -215,7 +215,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>2. Data Preprocessing</h1>
 <section id="주가-데이터셋-보조지표-추가" class="level2">
 <h2 class="anchored" data-anchor-id="주가-데이터셋-보조지표-추가">2.1. 주가 데이터셋 보조지표 추가</h2>
-<p>이전 글 <a href="https://ag-su.github.io/blog/posts/02.model_selection.html">[Stock Research] 1.2. 머신러닝 모델 비교</a>까지 주가 데이터셋 생성과 머신러닝 모델 비교를 통해 baseline model을 생성했습니다. 이번 글 부터는 데이터 전처리를 진행한다. 모델을 이전 글에서 선택했던 baseline 모델로 fix하고, 데이터의 질을 높임으로써 성능을 향상시킵니다. 그 첫번째로 주가데이터셋에 보조지표를 추가하여 설명변수의 크기를 늘립니다.</p>
+<p>이전 글 <a href="https://ag-su.github.io/blog/posts/02.model_selection.html">[Stock Research] 1.2. 머신러닝 모델 비교</a>까지 주가 데이터셋 생성과 머신러닝 모델 비교를 통해 baseline model을 생성했다. 이번 글 부터는 데이터 전처리를 진행한다. 모델을 이전 글에서 선택했던 baseline 모델로 fix하고, 데이터의 질을 높임으로써 성능을 향상시킨다. 그 첫번째로 주가데이터셋에 보조지표를 추가하여 설명변수의 크기를 늘린다.</p>
 <section id="목차" class="level3">
 <h3 class="anchored" data-anchor-id="목차">목차</h3>
 <ul>
@@ -261,14 +261,14 @@ Populating the interactive namespace from numpy and matplotlib</code></pre>
 </section>
 <section id="주식데이터의-보조지표" class="level2">
 <h2 class="anchored" data-anchor-id="주식데이터의-보조지표">(1) 주식데이터의 보조지표</h2>
-<p>주식데이터에서 보조지표란 기술적지표라고도 불리며, 다양한 각도와 계산식, 통계 등을 바탕으로 기본적 분석 방법들과 조합하여 보다 폭 넓은 시장 예측을 가능하게 도와주는 차트 분석 도구입니다.</p>
+<p>주식데이터에서 보조지표란 기술적지표라고도 불리며, 다양한 각도와 계산식, 통계 등을 바탕으로 기본적 분석 방법들과 조합하여 보다 폭 넓은 시장 예측을 가능하게 도와주는 차트 분석 도구이다.</p>
 <p>[참고]<br>
 -<a href="https://www.nanumtrading.com/fx-%eb%b0%b0%ec%9a%b0%ea%b8%b0/%ec%b0%a8%ed%8a%b8-%eb%b3%b4%ec%a1%b0%ec%a7%80%ed%91%9c-%ec%9d%b4%ed%95%b4/01-%eb%b3%b4%ec%a1%b0%ec%a7%80%ed%91%9c%eb%9e%80/">01 보조지표란?</a></p>
-<p>그 중에서도, 주식 시장에서 많이 알려져 있고, 주가 예측에 자주 사용되는 보조지표로는 이동평균선을 예로 들 수 있습니다. 이동평균선을 캔들차트와 함께 시각화 하고, 각 종목과 날짜에 대해 어떻게 나타나는지 직접 확인해보겠습니다.</p>
+<p>그 중에서도, 주식 시장에서 많이 알려져 있고, 주가 예측에 자주 사용되는 보조지표로는 이동평균선을 예로 들어 확인해보겠다. 이동평균선을 캔들차트와 함께 시각화 하고, 각 종목과 날짜에 대해 어떻게 나타나는지 직접 확인한다.</p>
 <ul>
 <li><strong>데이터 불러오기</strong></li>
 </ul>
-<p><code>2018-01-01 ~ 2020-12-31</code> 기간 동안의 모든 데이터를 미리 저장해 놓은 주가 데이터셋을 불러옵니다.</p>
+<p><code>2018-01-01 ~ 2020-12-31</code> 기간 동안의 모든 데이터를 미리 저장해 놓은 주가 데이터셋을 불러온다.</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_stock <span class="op">=</span> pd.read_csv(<span class="st">"stock_data_2018_2020.csv"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df_stock[<span class="st">'Code'</span>] <span class="op">=</span> df_stock[<span class="st">'Code'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x : <span class="bu">str</span>(x).zfill(<span class="dv">6</span>))</span>
@@ -464,15 +464,15 @@ Populating the interactive namespace from numpy and matplotlib</code></pre>
 </script>
 </div>
 </div>
-<p>위의 캔들차트에서 원하는 코드를 선택하여 4일, 20일, 60일, 120일 이동평균선을 확인할 수 있습니다.</p>
+<p>위의 캔들차트에서 원하는 코드를 선택하여 4일, 20일, 60일, 120일 이동평균선을 확인할 수 있다.</p>
 <p><br> <br></p>
 </section>
 <section id="보조지표-추가" class="level2">
 <h2 class="anchored" data-anchor-id="보조지표-추가">(2) 보조지표 추가</h2>
-<p>현재 baseline 모델에서는 10일치의 시가, 고가, 저가, 종가, 거래대금을 독립변수로 하여 학습을 진행하였습니다.</p>
+<p>현재 baseline 모델에서는 10일치의 시가, 고가, 저가, 종가, 거래대금을 독립변수로 하여 학습을 진행하였다.</p>
 <p><img src="03.add_index_files/figure-html/b707086b-1-c8e49983-af70-445a-8751-d85d55a7171a.png" class="img-fluid" alt="image.png">출처-네이버 증권</p>
-<p>하지만 10일간의 주가 차트 예시 사진을 보면, 너무 적은 정보만을 담고 있어 주가 예측을 위한 패턴을 찾아내기란 매우 어렵습니다. 따라서 주식의 여러 보조지표를 사용해서 해당 주식에 대한 압축된 정보를 독립변수에 추가해줍니다.</p>
-<p>앞서 시각화 해보았던 이동평균선 말고도 다양한 주식 보조지표들이 존재합니다. 보조지표들을 모두 수동으로 계산하기에는 어려움이 있으므로 TA 라이브러리를 사용하여 총 49개의 보조지표를 추가합니다. (+ trading_value)</p>
+<p>하지만 10일간의 주가 차트 예시 사진을 보면, 너무 적은 정보만을 담고 있어 주가 예측을 위한 패턴을 찾아내기란 매우 어렵다. 따라서 주식의 여러 보조지표를 사용해서 해당 주식에 대한 압축된 정보를 독립변수에 추가해준다.</p>
+<p>앞서 시각화 해보았던 이동평균선 말고도 다양한 주식 보조지표들이 존재한다. 보조지표들을 모두 수동으로 계산하기에는 어려움이 있으므로 TA 라이브러리를 사용하여 총 49개의 보조지표를 추가한다. (+ trading_value)</p>
 <p>-<a href="https://github.com/mrjbq7/ta-lib">TA library github</a></p>
 <ul>
 <li>보조지표 추가 코드</li>
@@ -871,7 +871,7 @@ Populating the interactive namespace from numpy and matplotlib</code></pre>
 </div>
 </div>
 </div>
-<p>보조지표를 추가하여 8개였던 컬럼이 58개의 컬럼이 된 것을 볼 수 있습니다.</p>
+<p>보조지표를 추가하여 8개였던 컬럼이 58개의 컬럼이 된 것을 확인하였다.</p>
 <p><br> <br></p>
 </section>
 <section id="모델-학습" class="level2">
@@ -879,7 +879,7 @@ Populating the interactive namespace from numpy and matplotlib</code></pre>
 <ul>
 <li><strong>데이터셋 생성 함수</strong></li>
 </ul>
-<p>위에서 보조지표를 추가 했던 방법과 동일하게 미리 생성해 놓은 보조지표 추가 데이터셋을 서버 DB에서 불러오겠습니다. baseline 모델에서 진행했던 데이터셋을 더 늘려 train 2017-2020, test 2021 기간 동안의 데이터를 사용합니다.</p>
+<p>위에서 보조지표를 추가 했던 방법과 동일하게 미리 생성해 놓은 보조지표 추가 데이터셋을 서버 DB에서 불러온다. baseline 모델에서 진행했던 데이터셋을 더 늘려 train 2017-2020, test 2021 기간 동안의 데이터를 사용한다.</p>
 <div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_dataset(train<span class="op">=</span><span class="va">True</span>):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -1101,8 +1101,8 @@ train, test 데이터셋에 대하여 Accuracy, AUC, f1_score, precision, recall
 <p><img src="03.add_index_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p>rocauc score는 0.595가 나왔습니다. 데이터의 기간을 늘리고, 보조지표를 추가함으로써 지난 글의 Baseline Model보다 성능이 향상되었음을 알 수 있습니다.<br>
-다음 글에서는 현재 사용하고 있는 통합 종목 주가 데이터셋의 종목별 가격이 모두 다른 점을 보완하기 위해 데이터를 표준화하는 시간을 가집니다.</p>
+<p>rocauc score는 0.595의 성능을 보였다. 데이터의 기간을 늘리고, 보조지표를 추가함으로써 지난 글의 Baseline Model의 0.56 보다 성능이 향상되었다.<br>
+다음 글에서는 현재 사용하고 있는 통합 종목 주가 데이터셋의 종목별 가격이 모두 다른 점을 보완하기 위해 데이터를 표준화하는 시간을 가진다.</p>
 
 
 </section>

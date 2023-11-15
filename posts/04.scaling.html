@@ -211,7 +211,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>2. Data Preprocessing</h1>
 <section id="주가-데이터-스케일링" class="level2">
 <h2 class="anchored" data-anchor-id="주가-데이터-스케일링">2.2. 주가 데이터 스케일링</h2>
-<p>이전 글 <a href="https://ag-su.github.io/blog/posts/03.add_index.html">2.1 주가 데이터셋 보조지표 추가</a>까지 주가 데이터에 보조지표를 추가하여 설명변수를 50개 가량 늘렸습니다. 그런데 현재 사용하고 있는 통합 종목 주가 데이터는 종목마다 가격이 다르다는 문제점이 존재합니다. 이는 성능을 저하시기는 원인이 될 수 있습니다. 따라서 주가 데이터셋의 전처리 파트에서 스케일링은 매우 중요한 요소라고할 수 있습니다. <code>min-max scaling</code>을 여러 방법으로 시도하고, 전 날 종가로 나누는 <code>div-close</code> 방법을 사용하여 총 4가지 스케일링 성능을 비교해보도록 하겠습니다.</p>
+<p>이전 글 <a href="https://ag-su.github.io/blog/posts/03.add_index.html">2.1 주가 데이터셋 보조지표 추가</a>까지 주가 데이터에 보조지표를 추가하여 설명변수를 50개 가량 늘렸다. 그런데 현재 사용하고 있는 통합 종목 주가 데이터는 종목마다 가격이 다르다는 문제점이 존재한다. 이는 성능을 저하시기는 원인이 될 수 있다. 따라서 주가 데이터셋의 전처리 파트에서 스케일링은 매우 중요한 요소라고할 수 있다. <code>min-max scaling</code>을 여러 방법으로 시도하고, 전 날 종가로 나누는 <code>div-close</code> 방법을 사용하여 총 4가지 스케일링 성능을 비교해보도록 하겠다.</p>
 <section id="목차" class="level3">
 <h3 class="anchored" data-anchor-id="목차">목차</h3>
 <ul>
@@ -261,7 +261,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="스케일러-비교">✔️ (1) 스케일러 비교</h2>
 <section id="min-max-scaler-전체-컬럼-전체-데이터" class="level3">
 <h3 class="anchored" data-anchor-id="min-max-scaler-전체-컬럼-전체-데이터">1) min-max scaler (전체 컬럼 + 전체 데이터)</h3>
-<p>모든 컬럼을 <strong>독립적</strong>으로 종목 별 <strong>전체데이터</strong>에 대해 <code>min-max scaling</code> 합니다.</p>
+<p>모든 컬럼을 <strong>독립적</strong>으로 종목 별 <strong>전체데이터</strong>에 대해 <code>min-max scaling</code> 한다.</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_dataset_minmax(trading):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
@@ -383,11 +383,12 @@ test dataset:  (239818, 550) (239818,)</code></pre>
 <p><img src="04.scaling_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
 </div>
 </div>
+<p>ROCAUC 점수가 지난 0.595의 성능 보다는 향상된 0.613의 성능을 보여주었다.</p>
 <p><br> <br></p>
 </section>
 <section id="min-max-scaler-전체-컬럼-window-size" class="level3">
 <h3 class="anchored" data-anchor-id="min-max-scaler-전체-컬럼-window-size">2) min-max scaler (전체 컬럼 + window size)</h3>
-<p>모든 컬럼을 <strong>독립적</strong>으로 종목 별 <strong>10일치</strong>에 대해 <code>min-max scaling</code> 합니다.</p>
+<p>모든 컬럼을 <strong>독립적</strong>으로 종목 별 <strong>10일치</strong>에 대해 <code>min-max scaling</code> 한다.</p>
 <div class="cell" data-execution_count="47">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_dataset_minmax_window(trading):</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
@@ -508,13 +509,14 @@ test dataset:  (239818, 550) (239818,)</code></pre>
 <p><img src="04.scaling_files/figure-html/cell-12-output-2.png" class="img-fluid"></p>
 </div>
 </div>
+<p>지난 글에서 0.595 였던 ROCAUC 성능이 0.575로 하락한 것을 보였다.</p>
 <p><br> <br></p>
 </section>
 <section id="min-max-scaler-가격-관련-컬럼-전체-데이터" class="level3">
 <h3 class="anchored" data-anchor-id="min-max-scaler-가격-관련-컬럼-전체-데이터">3) min-max scaler (가격 관련 컬럼 + 전체 데이터)</h3>
 <ul>
 <li><strong>가격 관련 컬럼:</strong> 캔들차트의 최솟값, 최댓값으로 min-max scaling</li>
-<li><strong>나머지 컬럼:</strong> scaling 하지 않습니다.</li>
+<li><strong>나머지 컬럼:</strong> scaling 하지 않는다.</li>
 </ul>
 <div class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_dataset_minmax_price(trading):</span>
@@ -655,13 +657,14 @@ test dataset:  (239818, 550) (239818,)</code></pre>
 <p><img src="04.scaling_files/figure-html/cell-17-output-2.png" class="img-fluid"></p>
 </div>
 </div>
+<p>지난 글의 0.595 보다 향상된 성능을 보여주었다.</p>
 <p><br> <br></p>
 </section>
 <section id="div-previous_close-가격-관련-컬럼-전체-데이터" class="level3">
 <h3 class="anchored" data-anchor-id="div-previous_close-가격-관련-컬럼-전체-데이터">4) div-previous_close (가격 관련 컬럼 + 전체 데이터)</h3>
 <ul>
 <li><strong>가격 관련 컬럼:</strong> 전날 종가로 나누어 스케일링</li>
-<li><strong>나머지 컬럼:</strong> 스케일링 하지 않습니다.</li>
+<li><strong>나머지 컬럼:</strong> 스케일링 하지 않는다.</li>
 </ul>
 <div class="cell" data-execution_count="58">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_dataset_div_previous_close(trading):</span>
@@ -722,7 +725,7 @@ test dataset:  (239818, 550) (239818,)</code></pre>
 <span id="cb30-56"><a href="#cb30-56" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 2) 나머지 컬럼 </span></span>
 <span id="cb30-57"><a href="#cb30-57" aria-hidden="true" tabindex="-1"></a>        df_etc <span class="op">=</span> stock[col_etc]</span>
 <span id="cb30-58"><a href="#cb30-58" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb30-59"><a href="#cb30-59" aria-hidden="true" tabindex="-1"></a>        df_scaled <span class="op">=</span> pd.concat([df_price_scaled, df_etc_scaled], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb30-59"><a href="#cb30-59" aria-hidden="true" tabindex="-1"></a>        df_scaled <span class="op">=</span> pd.concat([df_price_scaled, df_etc], axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb30-60"><a href="#cb30-60" aria-hidden="true" tabindex="-1"></a>        lst_stock_scaled <span class="op">=</span> df_scaled.values.tolist()</span>
 <span id="cb30-61"><a href="#cb30-61" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-62"><a href="#cb30-62" aria-hidden="true" tabindex="-1"></a>        </span>
@@ -801,12 +804,13 @@ test dataset:  (239817, 550) (239817,)</code></pre>
 <p><img src="04.scaling_files/figure-html/cell-22-output-2.png" class="img-fluid"></p>
 </div>
 </div>
+<p>지난 글 0.595 보다 성능 향상이 된 것을 확인하였다.</p>
 <p><br> <br></p>
 </section>
 </section>
 <section id="스케일러-선택" class="level2">
 <h2 class="anchored" data-anchor-id="스케일러-선택">(2) 스케일러 선택</h2>
-<p>스케일링을 통해 이전보다 크게 성능 향상이 된 것을 볼 수 있습니다. 서로 다른 종목 별 가격의 범위를 조정해 주는 작업은 중요하다는 것을 확인하였습니다. 수익률 시뮬레이션까지 해보고, 네 가지 방법 중 지속적으로 사용할 스케일러를 선택하도록 합니다.</p>
+<p>스케일링을 통해 이전보다 크게 성능 향상이 되었다. 서로 다른 종목 별 가격의 범위를 조정해 주는 작업은 중요하다는 것을 확인하였다. 수익률 시뮬레이션까지 해 본 후, 네 가지 방법 중 지속적으로 사용할 스케일러를 선택하도록 한다.</p>
 <section id="수익률-비교" class="level3">
 <h3 class="anchored" data-anchor-id="수익률-비교">수익률 비교</h3>
 <div class="cell" data-execution_count="67">
@@ -858,7 +862,7 @@ test dataset:  (239817, 550) (239817,)</code></pre>
 </div>
 </div>
 <p><br></p>
-<p>예측확률 임계값을 0.75로 설정하였는데, <code>4) 전 날 종가로 나누기</code> 방법의 스케일링이 가장 매매 개수가 많았습니다. 1년 동안 130번의 매수가 일어났음을 알 수 있습니다. 그와 동시에 수익률 시뮬레이션에서 수익률이 가장 높게 나온 전 날 종가로 나누는 스케일링 방법을 최종적으로 선택하도록 하겠습니다.</p>
+<p>예측확률 임계값을 0.75로 설정하였는데, <code>4) 전 날 종가로 나누기</code> 방법의 스케일링이 가장 매매 개수가 많았다. 1년 동안 130번의 매수가 일어났음을 알 수 있다. 그와 동시에 수익률 시뮬레이션에서 수익률이 가장 높게 나온 전 날 종가로 나누는 스케일링 방법을 최종적으로 선택한다.</p>
 
 
 </section>

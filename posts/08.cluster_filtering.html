@@ -214,7 +214,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1>3. 논문 연구: 주가상승 패턴 검출</h1>
 <section id="클러스터-탐색을-통한-주가상승-패턴-검출" class="level2">
 <h2 class="anchored" data-anchor-id="클러스터-탐색을-통한-주가상승-패턴-검출">3.3. 클러스터 탐색을 통한 주가상승 패턴 검출</h2>
-<p>지난 글 ( <a href="https://ag-su.github.io/blog/posts/06.tsne.html">3.2 t-SNE를 사용한 주가데이터 2차원 시각화</a> ) 에서는 원본 주가데이터셋과 SHAP 표준화 데이터셋에 대한 t-SNE 2차원 산점도 시각화를 수행하여 SHAP 표준화 데이터셋의 군집의 경계가 더 명확하게 드러남을 확인하였습니다. 이번 글에서는 <code>SHAP 표준화 데이터셋</code>에 <code>계층적 클러스터링</code> 알고리즘을 적용하여 명시적으로 군집을 분류해보고, label1의 비율로 군집을 필터링하여 <code>상승 추세 군집</code>을 선택합니다. 선택된 상승 추세 군집에서 빈도수 상위 날짜들의 개별 종목 차트를 확인하여 <code>공통된 패턴을 검출</code>합니다.</p>
+<p>지난 글 ( <a href="https://ag-su.github.io/blog/posts/06.tsne.html">3.2 t-SNE를 사용한 주가데이터 2차원 시각화</a> ) 에서는 원본 주가데이터셋과 SHAP 표준화 데이터셋에 대한 t-SNE 2차원 산점도 시각화를 수행하여 SHAP 표준화 데이터셋의 군집의 경계가 더 명확하게 드러남을 확인하였다. 이번 글에서는 <code>SHAP 표준화 데이터셋</code>에 <code>계층적 클러스터링</code> 알고리즘을 적용하여 명시적으로 군집을 분류해보고, label1의 비율로 군집을 필터링하여 <code>상승 추세 군집</code>을 선택한다. 선택된 상승 추세 군집에서 빈도수 상위 날짜들의 개별 종목 차트를 확인하여 <code>공통된 패턴을 검출</code>한다.</p>
 <section id="목차" class="level3">
 <h3 class="anchored" data-anchor-id="목차">목차</h3>
 <ul>
@@ -258,11 +258,11 @@ Populating the interactive namespace from numpy and matplotlib</code></pre>
 </section>
 <section id="계층적-클러스터링-상승-추세-군집-선택" class="level2">
 <h2 class="anchored" data-anchor-id="계층적-클러스터링-상승-추세-군집-선택">(1) 계층적 클러스터링 &amp; 상승 추세 군집 선택</h2>
-<p><code>상승 추세 군집</code>이란 <strong>기준일 (D0) 대비 다음 날 (D+1) 종가 2% 이상 상승</strong>한 데이터들이 일정 비율 이상 속하는 군집들을 의미합니다. 계층적 클러스터링을 통해 생성된 군집들을 label1의 비율로 필터링하여 상승 추세 군집을 선택합니다.</p>
+<p><code>상승 추세 군집</code>이란 <strong>기준일 (D0) 대비 다음 날 (D+1) 종가 2% 이상 상승</strong>한 데이터들이 일정 비율 이상 속하는 군집들을 의미한다. 계층적 클러스터링을 통해 생성된 군집들을 label1의 비율로 필터링하여 상승 추세 군집을 선택한다.</p>
 <ul>
 <li>linkage, 덴드로그램 시각화 함수</li>
 </ul>
-<p>계층적 클러스터링에서의 덴드로그램 시각화를 수행하여 트리의 높이를 결정할 수 있도록 합니다.</p>
+<p>계층적 클러스터링에서의 덴드로그램 시각화를 수행하여 트리의 높이를 결정할 수 있도록 한다.</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hierarchical_clustering_plot(method, year, cci_type, dendrogram<span class="op">=</span><span class="va">False</span>, n_clusters<span class="op">=</span><span class="dv">5</span>, min_samples<span class="op">=</span><span class="dv">5</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, size<span class="op">=</span><span class="dv">4</span>):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
@@ -299,7 +299,7 @@ Populating the interactive namespace from numpy and matplotlib</code></pre>
 <ul>
 <li>계층적 클러스터링, 상승 추세 군집 선택 시각화</li>
 </ul>
-<p>덴드로그램을 참고하여 <code>40 ~ 60개의 군집</code>이 형성되도록 t를 설정합니다. 상승 추세 군집을 선택하기 위해 적절한 ratio(특정 집단에서의 label1의 비율)값을 지정해주는데, <code>군집의 개수는 4 ~ 10개</code>, <code>데이터의 개수는 3000 ~ 6000개</code> 사이가 되도록 설정합니다.</p>
+<p>덴드로그램을 참고하여 <code>40 ~ 60개의 군집</code>이 형성되도록 t를 설정한다. 상승 추세 군집을 선택하기 위해 적절한 ratio(특정 집단에서의 label1의 비율)값을 지정해주는데, <code>군집의 개수는 4 ~ 10개</code>, <code>데이터의 개수는 3000 ~ 6000개</code> 사이가 되도록 설정한다.</p>
 <div class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fcluster_plot_and_filtering(np_clusters, year, cci_type, t<span class="op">=</span><span class="dv">30</span>, ratio<span class="op">=</span><span class="fl">0.5</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, size<span class="op">=</span><span class="dv">4</span>, xlim<span class="op">=</span><span class="dv">70</span>, ylim<span class="op">=</span><span class="dv">70</span>):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
@@ -516,7 +516,7 @@ label 1 &gt; 0.207 군집 번호:  Int64Index([3, 4, 13, 18, 21, 22, 24, 25], dt
 <p><img src="08.cluster_filtering_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p><code>중립구간</code>에서 상승 추세 군집 데이터의 날짜 빈도수는 <strong>2019년도</strong>는 <strong>8월 3주차</strong>, <strong>2020년도</strong>는 <strong>4월 1주차</strong>, <strong>2021년도</strong>는 <strong>2월 1주차</strong>가 가장 높게 나왔습니다. 그 중에서도 가장 큰 날짜 빈도 차이를 보인 연도는 <strong>2020년</strong>이었습니다.</p>
+<p><code>중립구간</code>에서 상승 추세 군집 데이터의 날짜 빈도수는 <strong>2019년도</strong>는 <strong>8월 3주차</strong>, <strong>2020년도</strong>는 <strong>4월 1주차</strong>, <strong>2021년도</strong>는 <strong>2월 1주차</strong>가 가장 높게 나왔다. 그 중에서도 가장 큰 날짜 빈도 차이를 보인 연도는 <strong>2020년</strong>이었다.</p>
 <p><br></p>
 <ol start="2" type="1">
 <li>연도별 상위 날짜의 개별 종목 차트 확인</li>
@@ -524,7 +524,7 @@ label 1 &gt; 0.207 군집 번호:  Int64Index([3, 4, 13, 18, 21, 22, 24, 25], dt
 <ul>
 <li>연도별 상위 날짜의 랜덤 종목코드 데이터프레임 생성</li>
 </ul>
-<p>상위 날짜들을 바꿔가며 실행하고, 랜덤으로 나오는 종목코드들의 개별 종목 차트를 확인합니다.</p>
+<p>상위 날짜들을 바꿔가며 실행하고, 랜덤으로 나오는 종목코드들의 개별 종목 차트를 확인한다.</p>
 <div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#collapse-hide</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
@@ -613,7 +613,7 @@ label 1 &gt; 0.207 군집 번호:  Int64Index([3, 4, 13, 18, 21, 22, 24, 25], dt
 <img src="08.cluster_filtering_files/figure-html/cd92919d-0e2f-4218-a266-f12d30f9b8ff-1-1d44cba8-eb4c-40ab-824f-595ebe93dd73.png" title="종목코드: 089890" class="img-fluid" alt="image.png"></p>
 <p><strong>2021년 2월 1일</strong><br>
 <img src="08.cluster_filtering_files/figure-html/cd92919d-0e2f-4218-a266-f12d30f9b8ff-3-e6f731bb-780b-438f-a325-bcd2c8e8b713.png" title="종목코드: 033240" class="img-fluid" alt="image.png"></p>
-<p>여러개의 차트 확인을 해보았을 때, 가장 큰 날짜 편중을 보였던 <strong>2020년도</strong>는 <strong>차트의 패턴이 가장 일정</strong>하게 나타났으며, 2019,2021년도는 2020년도 만큼 일정한 패턴을 보이지는 않았습니다. 하지만 세 연도에서 공통적으로 나오는 패턴이 존재했습니다. 해당 패턴을 분석해보았을 때, 위의 세 사진과 같이, <code>하락 추세에서 상승 추세로 전환</code>되는 <code>V자</code> 형태였으며, 그 중에서도 <code>기준일(D0)[회색 선]이 오른쪽에 위치</code>한다는 공통점이 있었습니다.</p>
+<p>여러개의 차트 확인을 해보았을 때, 가장 큰 날짜 편중을 보였던 <strong>2020년도</strong>는 <strong>차트의 패턴이 가장 일정</strong>하게 나타났으며, 2019,2021년도는 2020년도 만큼 일정한 패턴을 보이지는 않았다. 하지만 세 연도에서 공통적으로 나오는 패턴이 존재했다. 해당 패턴을 분석해보았을 때, 위의 세 사진과 같이, <code>하락 추세에서 상승 추세로 전환</code>되는 <code>V자</code> 형태였으며, 그 중에서도 <code>기준일(D0)[회색 선]이 오른쪽에 위치</code>한다는 공통점이 있었다.</p>
 <p><br> <br></p>
 </section>
 </section>
@@ -724,7 +724,7 @@ label 1 &gt; 0.268 군집 번호:  Int64Index([5, 9, 14, 16, 31, 32, 43, 51], dt
 <p><img src="08.cluster_filtering_files/figure-html/cell-20-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p><code>과매수구간</code>에서 빈도수가 높은 날짜는 <strong>2019년 1월 4주차</strong>, <strong>2020년 4월 3주차</strong>, <strong>2021년 1월 3주차</strong>임을 알 수 있 습니다. 다른 CCI 구간에 비해 상위 빈도수의 크기 차이가 많지 않았습니다. 가장 높은 날짜 빈도 차이를 보이는 연도는 중립구간과 마찬가지로 <strong>2020년도</strong>였습니다.</p>
+<p><code>과매수구간</code>에서 빈도수가 높은 날짜는 <strong>2019년 1월 4주차</strong>, <strong>2020년 4월 3주차</strong>, <strong>2021년 1월 3주차</strong>임을 알 수 있 습니다. 다른 CCI 구간에 비해 상위 빈도수의 크기 차이가 많지 않았다. 가장 높은 날짜 빈도 차이를 보이는 연도는 중립구간과 마찬가지로 <strong>2020년도</strong>였다.</p>
 <p><br></p>
 <ol start="2" type="1">
 <li>연도별 상위 날짜의 개별 종목 차트 확인</li>
@@ -732,7 +732,7 @@ label 1 &gt; 0.268 군집 번호:  Int64Index([5, 9, 14, 16, 31, 32, 43, 51], dt
 <ul>
 <li>연도별 상위 날짜의 랜덤 종목코드 데이터프레임 생성</li>
 </ul>
-<p>상위 날짜들을 바꿔가며 실행하고, 랜덤으로 나오는 종목코드들의 개별 종목 차트를 확인합니다.</p>
+<p>상위 날짜들을 바꿔가며 실행하고, 랜덤으로 나오는 종목코드들의 개별 종목 차트를 확인한다.</p>
 <div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#collapse-hide</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
@@ -821,7 +821,7 @@ label 1 &gt; 0.268 군집 번호:  Int64Index([5, 9, 14, 16, 31, 32, 43, 51], dt
 <img src="08.cluster_filtering_files/figure-html/0a1b5acb-53c0-4755-ad65-ab8a5df59427-3-fd18d37b-2edd-45de-8645-14c7ed11280c.png" title="종목코드: 035620" class="img-fluid" alt="image.png"></p>
 <p><strong>2021년 1월 20일</strong><br>
 <img src="08.cluster_filtering_files/figure-html/0a1b5acb-53c0-4755-ad65-ab8a5df59427-2-93e05fb5-8bf0-4904-befc-71203049da61.png" title="종목코드: 010690" class="img-fluid" alt="image.png"></p>
-<p><code>과매수구간</code>은 20일 이동평균선의 위에 극단적으로 떨어져있는 데이터들이므로, 기준일(D0)[회색 선]이 상승추세에서의 중간 ~ 끝 무렵에 위치하였습니다. 다른 CCI 구간보다 패턴이 가장 불규칙적이었지만, <code>하락추세에서 상승추세로 전환되는 V자 형태에서 상승추세 끝무렵에 위치</code>하는 공통된 패턴을 <strong>일부 데이터</strong>에서 검출할 수 있었습니다.</p>
+<p><code>과매수구간</code>은 20일 이동평균선의 위에 극단적으로 떨어져있는 데이터들이므로, 기준일(D0)[회색 선]이 상승추세에서의 중간 ~ 끝 무렵에 위치하였다. 다른 CCI 구간보다 패턴이 가장 불규칙적이었지만, <code>하락추세에서 상승추세로 전환되는 V자 형태에서 상승추세 끝무렵에 위치</code>하는 공통된 패턴을 <strong>일부 데이터</strong>에서 검출할 수 있었다.</p>
 <p><br> <br></p>
 </section>
 </section>
@@ -932,7 +932,7 @@ label 1 &gt; 0.35 군집 번호:  Int64Index([5, 7, 10, 15], dtype='int64', name
 <p><img src="08.cluster_filtering_files/figure-html/cell-28-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p><code>과매도구간</code>의 빈도수 상위 날짜는 <strong>2019년 8월 1주차</strong>, <strong>2020년 3월 4주차</strong>, <strong>2021년 10월 1주차</strong>였습니다. CCI 구간 중 유일하게 모든 연도에서 높은 날짜 빈도 차이를 보였습니다.</p>
+<p><code>과매도구간</code>의 빈도수 상위 날짜는 <strong>2019년 8월 1주차</strong>, <strong>2020년 3월 4주차</strong>, <strong>2021년 10월 1주차</strong>였다. CCI 구간 중 유일하게 모든 연도에서 높은 날짜 빈도 차이를 보였다.</p>
 <p><br></p>
 <ol start="2" type="1">
 <li>연도별 상위 날짜의 개별 종목 차트 확인</li>
@@ -940,7 +940,7 @@ label 1 &gt; 0.35 군집 번호:  Int64Index([5, 7, 10, 15], dtype='int64', name
 <ul>
 <li>연도별 상위 날짜의 랜덤 종목코드 데이터프레임 생성</li>
 </ul>
-<p>상위 날짜들을 바꿔가며 실행하고, 랜덤으로 나오는 종목코드들의 개별 종목 차트를 확인합니다.</p>
+<p>상위 날짜들을 바꿔가며 실행하고, 랜덤으로 나오는 종목코드들의 개별 종목 차트를 확인한다.</p>
 <div class="cell" data-execution_count="206">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#collapse-hide</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
@@ -1029,17 +1029,17 @@ label 1 &gt; 0.35 군집 번호:  Int64Index([5, 7, 10, 15], dtype='int64', name
 <img src="08.cluster_filtering_files/figure-html/b7a7363a-ec9b-4fea-b73b-21b6627cd9b1-2-6ce4c3be-d169-4484-9d60-275e8fa2aa1b.png" title="종목코드: 126880" class="img-fluid" alt="image.png"></p>
 <p><strong>2021년 10월 17일</strong><br>
 <img src="08.cluster_filtering_files/figure-html/b7a7363a-ec9b-4fea-b73b-21b6627cd9b1-1-08ea2063-05eb-4861-b19a-9e6cb11ca11a.png" title="종목코드: 088130" class="img-fluid" alt="image.png"></p>
-<p>위의 사진과 같이, 모든 연도에서 비슷한 패턴을 보였습니다. <code>하락추세에서 상승추세로 전환되는 V자 형태</code>의 공통된 패턴에서, <code>기준일(D0)[회색 선]이 꼭지점 근처에 위치</code>하였습니다.</p>
+<p>위의 사진과 같이, 모든 연도에서 비슷한 패턴을 보였다. <code>하락추세에서 상승추세로 전환되는 V자 형태</code>의 공통된 패턴에서, <code>기준일(D0)[회색 선]이 꼭지점 근처에 위치</code>하였다.</p>
 <p><br> <br></p>
 </section>
 </section>
 </section>
 <section id="정리" class="level2">
 <h2 class="anchored" data-anchor-id="정리">(2) 정리</h2>
-<p>지금까지 <code>분류 머신러닝 모델학습</code>, <code>SHAP 표준화</code>, <code>클러스터링 분석</code>의 과정을 거쳐 <code>10일 간의 주가 시계열 데이터로</code>부터 주가 <code>상승 추세 패턴</code>을 검출하였습니다.</p>
+<p>지금까지 <code>분류 머신러닝 모델학습</code>, <code>SHAP 표준화</code>, <code>클러스터링 분석</code>의 과정을 거쳐 <code>10일 간의 주가 시계열 데이터로</code>부터 주가 <code>상승 추세 패턴</code>을 검출하였다.</p>
 <p>CCI 구간 별, 연도 별로 나누어 연구를 진행하였는데,</p>
-<p>1) <strong>CCI 구간</strong> 별 공통적으로 나타나는 패턴은 <strong>하락추세에서 상승추세로 전환되는 V자 상승반전형 패턴</strong>이었으며, 기준일(D0)의 위치가 CCI 구간에 따라 다르게 나타났습니다. 특히나 <code>과매도구간</code>에서의 패턴이 다른 구간에 비해 가장 정확하고 유사한 것을 확인할 수 있었습니다.</p>
-<p>2) 모든 CCI 구간을 통틀어 <strong>2019, 2020, 2021년도</strong> 중 높은 빈도로 나타나는 날짜의 편중이 가장 큰 연도는 <strong>2020년</strong>이었으며, 2020년도에서 패턴의 모양 또한 가장 유사하게 나타났습니다.</p>
+<p>1) <strong>CCI 구간</strong> 별 공통적으로 나타나는 패턴은 <strong>하락추세에서 상승추세로 전환되는 V자 상승반전형 패턴</strong>이었으며, 기준일(D0)의 위치가 CCI 구간에 따라 다르게 나타났다. 특히나 <code>과매도구간</code>에서의 패턴이 다른 구간에 비해 가장 정확하고 유사한 것을 확인할 수 있었다.</p>
+<p>2) 모든 CCI 구간을 통틀어 <strong>2019, 2020, 2021년도</strong> 중 높은 빈도로 나타나는 날짜의 편중이 가장 큰 연도는 <strong>2020년</strong>이었으며, 2020년도에서 패턴의 모양 또한 가장 유사하게 나타났다.</p>
 
 
 </section>
